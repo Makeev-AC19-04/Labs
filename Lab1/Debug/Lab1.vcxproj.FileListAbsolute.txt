@@ -1,0 +1,4 @@
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\1 лаба\Lab1\Debug\Lab1.exe
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\1 лаба\Lab1\Debug\Lab1.pdb
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Debug\Lab1.exe
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Debug\Lab1.pdb
