@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stdlib.h>
 
 struct pipe {
     int id;
@@ -33,7 +34,7 @@ pipe createpipe() {
 ks createks() {
     ks kc;
     kc.id = 0;
-    std::cout << "Введите название КС\n";
+    std::cout << "\nВведите название КС\n";
     std::cin >> kc.name;
     std::cout << "Введите кол-во цехов\n";
     std::cin >> kc.numc;
@@ -46,16 +47,38 @@ ks createks() {
 
 int main()
 {
+    int inmenu;
     pipe p;
     ks k;
-    std::cout << "Hello world!\n";
-    p = createpipe();
-    std::cout << "Вы ввели:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
-    k = createks();
-    std::cout << "Вы ввели:\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
-    std::ofstream fin;
-    fin.open("C:\\Users\\wane2\\Documents\\Задания\\Алгоритмические языки\\Labs\\Lab1\\data.txt");
-    fin << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
-    fin.close();
+    std::cout << "Меню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать трубу\n5. Редактировать КС\n6. Сохранить\n7. Загрузить\n0. Выход\n";
+    std::cin >> inmenu;
+    if (inmenu == 1) {
+        p = createpipe();
+        std::cout << "Вы ввели:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
+    }
+    else if (inmenu == 2) {
+        k = createks();
+        std::cout << "Вы ввели:\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
+    }
+    else if (inmenu == 3) {
+    }
+    else if (inmenu == 4) {
+    }
+    else if (inmenu == 5) {
+    }
+    else if (inmenu == 6) {
+    }
+    else if (inmenu == 7) {
+        //std::ofstream fin;
+        //fin.open("C:\\Users\\wane2\\Documents\\Задания\\Алгоритмические языки\\Labs\\Lab1\\data.txt");
+        //fin << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
+        //fin.close();
+    }
+    else if (inmenu == 0) {
+        return 0;
+    }
+    else {
+        std::cout << "Нет такого пункта меню";
+    }
 
 };
