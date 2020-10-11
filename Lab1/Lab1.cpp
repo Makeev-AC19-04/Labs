@@ -24,11 +24,11 @@ pipe createpipe() {
     pipe d;
     int fx;
     d.id = 0;
-    bool inmenu;
+    int inmenup;
     std::cout << "\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n3. Отмена\n";
-    std::cin >> inmenu;
+    std::cin >> inmenup;
     while (1) {
-        if (inmenu == 1) {
+        if (inmenup == 1) {
             while (1) {
                 std::cout << "Введите длину, km\n";
                 std::cin >> d.length;
@@ -58,34 +58,62 @@ pipe createpipe() {
                 d.fix = false;
             }
         }
-        else if (inmenu == 2) {
+        else if (inmenup == 2) {
             std::cout << "\nВвод из файла\n";
-            std::ofstream fin;
+            std::ifstream fin;
             fin.open("C:\\Users\\wane2\\Documents\\Задания\\Алгоритмические языки\\Labs\\Lab1\\data.txt");
-            fin << d.length << "\n" << d.diameter << "\n" << d.fix << "\n" << d.id << "\n";
-            fin.close();
+            if (fin.is_open()) {
+                fin >> d.length >> d.diameter >> d.fix >> d.id;
+                fin.close();
+            }
+            break;
         }
-        else if (inmenu == 3) {
+        else if (inmenup == 3) {
             std::cout << "\nВыход из добавления трубы\n";
             break;
         }
-
-
         return d;
-    };
-}
+    }
+};
 
     ks createks() {
     ks kc;
     kc.id = 0;
     std::cout << "\nВведите название КС\n";
     std::cin >> kc.name;
-    std::cout << "Введите кол-во цехов\n";
-    std::cin >> kc.numc;
-    std::cout << "Введите кол-во рабочих цехов\n";
-    std::cin >> kc.numcw;
-    std::cout << "Введите коеф. эффективности\n";
-    std::cin >> kc.effective;
+    while (1) {
+        std::cout << "Введите кол-во цехов\n";
+        std::cin >> kc.numc;
+        if (kc.numc <= 0) {
+            std::cout << "Введите значение больше нуля\n";
+        }
+        else {
+            break;
+        }
+    }
+    while (1) {
+        std::cout << "Введите кол-во рабочих цехов\n";
+        std::cin >> kc.numcw;
+        if (kc.numcw <= 0) {
+            std::cout << "Введите значение больше нуля\n";
+        }
+        else if (kc.numcw > kc.numc) {
+            std::cout << "Рабочих цехов не может быть больше общего кол-ва\n";
+        }
+        else {
+            break;
+        }
+    }
+    while (1) {
+        std::cout << "Введите коеф. эффективности\n";
+        std::cin >> kc.effective;
+        if (kc.effective <= 0) {
+            std::cout << "Введите значение больше нуля\n";
+        }
+        else {
+            break;
+        }
+    }
     return kc;
 };
 
@@ -107,7 +135,10 @@ int main()
                     std::cin >> inmenu;
                     if (inmenu == 1) {
                         std::cout << "\nТруба сохранена\n";
-                        //Запись в файл или еще куда
+                        std::ofstream fin;
+                        fin.open("data.txt");
+                        fin << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
+                        fin.close();
                         menu1 = false;
                         break;
                     }
@@ -153,7 +184,7 @@ int main()
             }
         else if (inmenu == 2) {
             k = createks();
-            std::cout << "Вы ввели:\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
+            std::cout << "Текущие параметры КС:\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
         }
         else if (inmenu == 3) {
         }
