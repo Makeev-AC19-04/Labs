@@ -24,11 +24,27 @@ pipe createpipe() {
     pipe d;
     int fx;
     d.id = 0;
-    std::cout << "Введите длину, km\n";
-    std::cin >> d.length;
-    std::cout << "Введите диаметр, mm\n";
-    std::cin >> d.diameter;
-    std::cout << "Укажите признак в ремонте (1 или 0)";
+    while (1) {
+        std::cout << "Введите длину, km\n";
+        std::cin >> d.length;
+        if (d.length <= 0) {
+            std::cout << "Введите значение больше нуля\n";
+        }
+        else {
+            break;
+        }
+    }
+    while (1) {
+        std::cout << "Введите диаметр, mm\n";
+        std::cin >> d.diameter;
+        if (d.diameter <= 0) {
+            std::cout << "Введите значение больше нуля\n";
+        }
+        else {
+            break;
+        }
+    }
+    std::cout << "Укажите признак в ремонте (1 или 0)\n";
     std::cin >> fx;
     if (fx == 1) {
         d.fix = true;
@@ -36,6 +52,7 @@ pipe createpipe() {
     else {
         d.fix = false;
     }
+
     return d;
 };
 
@@ -58,13 +75,15 @@ int main()
     int inmenu;
     pipe p;
     ks k;
+    bool menu1;
     while (1) {
         std::cout << "\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать трубу\n5. Редактировать КС\n6. Сохранить\n7. Загрузить\n0. Выход\n";
         std::cin >> inmenu;
         if (inmenu == 1) {
+            menu1 = true;
             std::cout << "\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n3. Отмена\n";
             std::cin >> inmenu;
-            while (1) {
+            while (menu1 == true) {
                 if (inmenu == 1) {
                     p = createpipe();
                 }
@@ -75,32 +94,56 @@ int main()
                     std::cout << "\nВыход из добавления трубы\n";
                     break;
                 }
-                std::cout << "\nВы ввели:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
-                std::cout << "\nСохранить?\n1.Да\n2.Нет\n";
-                std::cin >> inmenu;
-                if (inmenu == 1) {
-                    std::cout << "\nТруба сохранена\n";
-                    //Запись в файл или еще куда
-                    break;
-                }
-                if (inmenu == 2) {
-                    std::cout << "\nЧто вы хотите исправить?\n 1. Длину\n 2. Диаметр\n 3. Признак в ремонте\n";
+                while (1) {
+                    std::cout << "\nТекущие параметры трубы:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
+                    std::cout << "\nСохранить?\n1.Да\n2.Нет\n";
                     std::cin >> inmenu;
                     if (inmenu == 1) {
-                        std::cout << "Введите новое значение длины";
-                        std::cin >> p.length;
+                        std::cout << "\nТруба сохранена\n";
+                        //Запись в файл или еще куда
+                        menu1 = false;
+                        break;
                     }
-                    else if (inmenu == 2) {
-                        std::cout << "Введите новое значение диаметра";
-                        std::cin >> p.diameter;
-                    }
-                    else if (inmenu == 3) {
-                        p.fix = !p.fix;
-                        std::cout << "Признак ремонта изменен на противоположный";
+                    if (inmenu == 2) {
+                        std::cout << "\nЧто вы хотите исправить?\n1. Длину\n2. Диаметр\n3. Признак в ремонте\n4. Удалить трубу\n";
+                        std::cin >> inmenu;
+                        if (inmenu == 1) {
+                            while (1) {
+                                std::cout << "Введите новое значение длины\n";
+                                std::cin >> p.length;
+                                if (p.length <= 0) {
+                                    std::cout << "Введите значение больше нуля\n";
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                        else if (inmenu == 2) {
+                            while (1) {
+                                std::cout << "Введите новое значение диаметра\n";
+                                std::cin >> p.diameter;
+                                if (p.diameter <= 0) {
+                                    std::cout << "Введите значение больше нуля\n";
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                        }
+                        else if (inmenu == 3) {
+                            p.fix = !p.fix;
+                            std::cout << "Признак ремонта изменен на противоположный\n";
+                        }
+                        else if (inmenu == 4) {
+                            std::cout << "Труба удалена\n";
+                            menu1 = false;
+                            break;
+                        }
                     }
                 }
-            }
 
+            }
         }
         else if (inmenu == 2) {
             k = createks();
@@ -125,7 +168,6 @@ int main()
         }
         else {
             std::cout << "Нет такого пункта меню";
-
         }
     }
 
