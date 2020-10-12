@@ -61,11 +61,9 @@ pipe createpipe() {
         else if (inmenup == 2) {
             std::cout << "\nВвод из файла\n";
             std::ifstream fin;
-            fin.open("C:\\Users\\wane2\\Documents\\Задания\\Алгоритмические языки\\Labs\\Lab1\\data.txt");
-            if (fin.is_open()) {
-                fin >> d.length >> d.diameter >> d.fix >> d.id;
-                fin.close();
-            }
+            fin.open("pipe.txt");
+            fin >> d.length >> d.diameter >> d.fix >> d.id;
+            fin.close();
             break;
         }
         else if (inmenup == 3) {
@@ -120,14 +118,13 @@ pipe createpipe() {
 int main()
 {
     int inmenu;
+
     pipe p;
     ks k;
-    bool menu1;
     while (1) {
         std::cout << "\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать трубу\n5. Редактировать КС\n6. Сохранить\n7. Загрузить\n0. Выход\n";
         std::cin >> inmenu;
         if (inmenu == 1) {
-            menu1 = true;
                 while (1) {
                     p = createpipe();
                     std::cout << "\nТекущие параметры трубы:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
@@ -136,46 +133,22 @@ int main()
                     if (inmenu == 1) {
                         std::cout << "\nТруба сохранена\n";
                         std::ofstream fin;
-                        fin.open("data.txt");
-                        fin << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
+                        fin.open("data.txt", std::ofstream::out | std::ofstream::app); //https://coderoad.ru/54498954/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%84%D0%B0%D0%B9%D0%BB-%D0%B1%D0%B5%D0%B7-%D1%81%D1%82%D0%B8%D1%80%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%BE%D0%B3%D0%BE-%D1%87%D1%82%D0%BE-%D0%BD%D0%B0%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D1%81%D1%8F-%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8
+                        fin << "\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
                         fin.close();
-                        menu1 = false;
                         break;
                     }
                     if (inmenu == 2) {
-                        std::cout << "\nЧто вы хотите исправить?\n1. Длину\n2. Диаметр\n3. Признак в ремонте\n4. Удалить трубу\n";
+                        std::cout << "\nЧто вы хотите сделать?\n1. Изменить признак в ремонте\n2. Удалить трубу\n";
                         std::cin >> inmenu;
-                        if (inmenu == 1) {
-                            while (1) {
-                                std::cout << "Введите новое значение длины\n";
-                                std::cin >> p.length;
-                                if (p.length <= 0) {
-                                    std::cout << "Введите значение больше нуля\n";
-                                }
-                                else {
-                                    break;
-                                }
-                            }
-                        }
-                        else if (inmenu == 2) {
-                            while (1) {
-                                std::cout << "Введите новое значение диаметра\n";
-                                std::cin >> p.diameter;
-                                if (p.diameter <= 0) {
-                                    std::cout << "Введите значение больше нуля\n";
-                                }
-                                else {
-                                    break;
-                                }
-                            }
-                        }
-                        else if (inmenu == 3) {
+                        if (inmenu == 1)
+                        {
                             p.fix = !p.fix;
                             std::cout << "Признак ремонта изменен на противоположный\n";
+                            break;
                         }
-                        else if (inmenu == 4) {
+                        else if (inmenu == 2) {
                             std::cout << "Труба удалена\n";
-                            menu1 = false;
                             break;
                         }
                     }
