@@ -63,8 +63,13 @@ pipe createpipe() {
         else if (inmenup == 2) {
             std::ifstream fin;
             fin.open("pipe.txt", std::ios::in);
-            fin >> d.length >> d.diameter >> d.fix >> d.id;
-            fin.close();
+            if (fin.is_open()) {
+                fin >> d.length >> d.diameter >> d.fix >> d.id;
+                fin.close();
+            }
+            else {
+                std::cout << "Ошибка открытия файла";
+            }
             break;
         }
         else if (inmenup == 3) {
@@ -122,8 +127,13 @@ ks createks() {
         if (inmenup == 2) {
             std::ifstream fin;
             fin.open("ks.txt", std::ios::in);
-            fin >> kc.name >> kc.numc >> kc.numcw >> kc.effective;
-            fin.close();
+            if (fin.is_open()) {
+                fin >> kc.name >> kc.numc >> kc.numcw >> kc.effective;
+                fin.close();
+            }
+            else {
+                std::cout << "Ошибка открытия файла";
+            }
             break;
         }
         if (inmenup == 3) {
@@ -136,7 +146,7 @@ ks createks() {
 
 int main()
 {
-    int inmenu, lastpid, lastksid, wid;
+    int inmenu, lastpid, lastksid, wid, i;
     int c = 0;
     std::string currentline;
     pipe p;
@@ -145,7 +155,7 @@ int main()
     //fin.open("data.txt", std::ios::in);
     //fin.close();
     while (1) {
-        std::cout << "\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать трубу\n5. Редактировать КС\n6. Сохранить\n7. Загрузить\n0. Выход\n";
+        std::cout << "\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Загрузить\n0. Выход\n";
         std::cin >> inmenu;
         if (inmenu == 1) {
                 while (1) {
@@ -154,11 +164,16 @@ int main()
                     std::cout << "\nСохранить?\n1.Да\n2.Нет\n";
                     std::cin >> inmenu;
                     if (inmenu == 1) {
-                        std::cout << "\nТруба сохранена\n";
                         std::ofstream fin;
                         fin.open("data.txt", std::ofstream::out | std::ofstream::app); //https://coderoad.ru/54498954/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%84%D0%B0%D0%B9%D0%BB-%D0%B1%D0%B5%D0%B7-%D1%81%D1%82%D0%B8%D1%80%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%BE%D0%B3%D0%BE-%D1%87%D1%82%D0%BE-%D0%BD%D0%B0%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D1%81%D1%8F-%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8
-                        fin << "\n" << "pipe" << "\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
-                        fin.close();
+                        if (fin.is_open()) {
+                            std::cout << "\nТруба сохранена\n";
+                            fin << "\n" << "pipe" << "\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
+                            fin.close();
+                        }
+                        else {
+                            std::cout << "Ошибка открытия файла";
+                        }
                         break;
                     }
                     if (inmenu == 2) {
@@ -185,11 +200,16 @@ int main()
                 std::cout << "\nСохранить?\n1.Да\n2.Нет\n";
                 std::cin >> inmenu;
                 if (inmenu == 1) {
-                    std::cout << "\nКС сохранена\n";
                     std::ofstream fin;
                     fin.open("data.txt", std::ofstream::out | std::ofstream::app); //https://coderoad.ru/54498954/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%84%D0%B0%D0%B9%D0%BB-%D0%B1%D0%B5%D0%B7-%D1%81%D1%82%D0%B8%D1%80%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%BE%D0%B3%D0%BE-%D1%87%D1%82%D0%BE-%D0%BD%D0%B0%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D1%81%D1%8F-%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8
-                    fin << "\n" << "kc\n"<< k.name << "\n" << k.effective << "\n" << k.numc << "\n" << k.numcw << "\n" << k.id << "\n";
-                    fin.close();
+                    if (fin.is_open()) {
+                        std::cout << "\nКС сохранена\n";
+                        fin << "\n" << "kc\n" << k.name << "\n" << k.effective << "\n" << k.numc << "\n" << k.numcw << "\n" << k.id << "\n";
+                        fin.close();
+                    }
+                    else {
+                        std::cout << "Ошибка сохранения";
+                    }
                     break;
                 }
                 else if (inmenu == 2) {
@@ -239,12 +259,7 @@ int main()
             //std::cout << c;
         }
         else if (inmenu == 4) {
-        }
-        else if (inmenu == 5) {
-        }
-        else if (inmenu == 6) {
-        }
-        else if (inmenu == 7) {
+            std::ifstream fin;
             std::cout << "Что вы хотите загрузить?\n1. Трубу\n2. KC\n";
             std::cin >> inmenu;
             if (inmenu == 2) {
@@ -253,12 +268,38 @@ int main()
                 std::ifstream fin;
                 fin.open("data.txt", std::ios::in);
                 while (getline(fin, currentline)) {
+                    c = c + 1;
                     if (currentline == "kc") {
                         fin >> k.name >> k.numc >> k.numcw >> k.effective >> k.id;
                         if (wid == k.id) {
                             std::cout << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw << "\n" << k.effective << "\n" << k.id << "\n";
                         }
                     }
+                }
+                std::cout << c;
+                std::cout << "\nХотите запустить/остановить цеха?\n1. Да\n2. Нет\n";
+                std::cin >> inmenu;
+                fin.close();
+                if (inmenu == 1) {
+                    std::cout << "\n Введите новое число рабочих станций\n";
+                    while (1)
+                    {
+                        std::cin >> k.numcw;
+                        if (k.numc - k.numcw < 0) {
+                            std::cout << "\nРабочих станций не может быть больше общего кол-ва, введите подходящее значение\n";
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    //fin.open("data.txt", std::ios::in);
+                    for (i = 1; i <= c + 3; ++i) {
+                        getline(fin, currentline);
+                        //std::cout << "\n" << i << "\n"; //- проверка цикла
+                        std::cout << currentline;
+                    }
+                    std::cout << "Данные  сохранены";
+                    fin.close();
                 }
             }
             else {
@@ -273,6 +314,12 @@ int main()
                             std::cout << "\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
                         }
                     }
+                }
+                std::cout << "\nХотите поменять статус в ремонте?\n1. Да\n2. Нет\n";
+                std::cin >> inmenu;
+                if (inmenu == 1) {
+                    p.fix = !p.fix;
+                    std::cout << "Признак в ремонте изменен на противоположный";
                 }
             }
         }
