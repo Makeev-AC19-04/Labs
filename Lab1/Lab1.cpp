@@ -3,34 +3,33 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <stdlib.h>
 
 
-struct pipe {
+struct pipe { //структура трубы
     int id;
     float length;
-    float diameter;
+    int diameter;
     bool fix;
-};
+}; 
 
-struct ks {
+struct ks {  //структура кс
     int id;
     std::string name;
     int numc;
     int numcw;
     float effective;
-};
+}; 
 
-pipe createpipe() {
+pipe createpipe() { //функция создания трубы
     pipe d;
     int fx;
-    d.id = rand() % 1000000;
+    d.id = rand() % 1000000; // исправить
     int inmenup;
     //char filename;
     std::cout << "\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n3. Отмена\n";
     std::cin >> inmenup;
-    while (1) {
-        if (inmenup == 1) {
+    switch (inmenup) {
+    case 1: {
             while (1) {
                 std::cout << "Введите длину, km\n";
                 std::cin >> d.length;
@@ -60,7 +59,7 @@ pipe createpipe() {
                 d.fix = false;
             }
         }
-        else if (inmenup == 2) {
+    case 2: {
             std::ifstream fin;
             fin.open("pipe.txt", std::ios::in);
             if (fin.is_open()) {
@@ -72,7 +71,7 @@ pipe createpipe() {
             }
             break;
         }
-        else if (inmenup == 3) {
+    default: {
             std::cout << "\nВыход из добавления трубы\n";
             break;
         }
@@ -80,14 +79,14 @@ pipe createpipe() {
     }
 };
 
-ks createks() {
+ks createks() {  //функция создания КС
     ks kc;
     int inmenup;
     kc.id = rand() % 1000000;;
     std::cout << "\nКак вы хотите добавить КС?\n1. Ввести вручную\n2. Из файла\n3. Отмена\n";
     std::cin >> inmenup;
-    while (1) {
-        if (inmenup == 1) {
+    switch (inmenup) {
+    case 1: {
             std::cout << "\nВведите название КС\n";
             std::cin >> kc.name;
             while (1) {
@@ -124,7 +123,7 @@ ks createks() {
                 }
             }
         }
-        if (inmenup == 2) {
+    case 2: {
             std::ifstream fin;
             fin.open("ks.txt", std::ios::in);
             if (fin.is_open()) {
@@ -136,7 +135,7 @@ ks createks() {
             }
             break;
         }
-        if (inmenup == 3) {
+    default: {
             std::cout << "\nВыход из добавления КС\n";
             break;
         }
@@ -151,49 +150,47 @@ int main()
     std::string currentline;
     pipe p;
     ks k;
-    //std::ifstream fin;
-    //fin.open("data.txt", std::ios::in);
-    //fin.close();
     while (1) {
-        std::cout << "\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Загрузить\n0. Выход\n";
+        std::cout << "\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Загрузить\n0. Выход\n"; //вывод меню
         std::cin >> inmenu;
-        if (inmenu == 1) {
-                while (1) {
-                    p = createpipe();
-                    std::cout << "\nТекущие параметры трубы:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
-                    std::cout << "\nСохранить?\n1.Да\n2.Нет\n";
+        switch (inmenu) {
+        case 1: { //добавление трубы
+            while (1) {
+                p = createpipe();
+                std::cout << "\nТекущие параметры трубы:\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id;
+                std::cout << "\nСохранить?\n1.Да\n2.Нет\n";
+                std::cin >> inmenu;
+                if (inmenu == 1) {
+                    std::ofstream fin;
+                    fin.open("data.txt", std::ofstream::out | std::ofstream::app); //https://coderoad.ru/54498954/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%84%D0%B0%D0%B9%D0%BB-%D0%B1%D0%B5%D0%B7-%D1%81%D1%82%D0%B8%D1%80%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%BE%D0%B3%D0%BE-%D1%87%D1%82%D0%BE-%D0%BD%D0%B0%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D1%81%D1%8F-%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8
+                    if (fin.is_open()) {
+                        std::cout << "\nТруба сохранена\n";
+                        fin << "\n" << "pipe" << "\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
+                        fin.close();
+                    }
+                    else {
+                        std::cout << "Ошибка открытия файла";
+                    }
+                    break;
+                }
+                if (inmenu == 2) {
+                    std::cout << "\nЧто вы хотите сделать?\n1. Изменить признак в ремонте\n2. Удалить трубу\n";
                     std::cin >> inmenu;
-                    if (inmenu == 1) {
-                        std::ofstream fin;
-                        fin.open("data.txt", std::ofstream::out | std::ofstream::app); //https://coderoad.ru/54498954/%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%84%D0%B0%D0%B9%D0%BB-%D0%B1%D0%B5%D0%B7-%D1%81%D1%82%D0%B8%D1%80%D0%B0%D0%BD%D0%B8%D1%8F-%D1%82%D0%BE%D0%B3%D0%BE-%D1%87%D1%82%D0%BE-%D0%BD%D0%B0%D1%85%D0%BE%D0%B4%D0%B8%D1%82%D1%81%D1%8F-%D0%B2%D0%BD%D1%83%D1%82%D1%80%D0%B8
-                        if (fin.is_open()) {
-                            std::cout << "\nТруба сохранена\n";
-                            fin << "\n" << "pipe" << "\n" << p.length << "\n" << p.diameter << "\n" << p.fix << "\n" << p.id << "\n";
-                            fin.close();
-                        }
-                        else {
-                            std::cout << "Ошибка открытия файла";
-                        }
+                    if (inmenu == 1)
+                    {
+                        p.fix = !p.fix;
+                        std::cout << "Признак ремонта изменен на противоположный\n";
                         break;
                     }
-                    if (inmenu == 2) {
-                        std::cout << "\nЧто вы хотите сделать?\n1. Изменить признак в ремонте\n2. Удалить трубу\n";
-                        std::cin >> inmenu;
-                        if (inmenu == 1)
-                        {
-                            p.fix = !p.fix;
-                            std::cout << "Признак ремонта изменен на противоположный\n";
-                            break;
-                        }
-                        else if (inmenu == 2) {
-                            std::cout << "Труба удалена\n";
-                            break;
-                        }
+                    else if (inmenu == 2) {
+                        std::cout << "Труба удалена\n";
+                        break;
                     }
                 }
-
             }
-        else if (inmenu == 2) {
+
+        }
+        case 2: { //добавление КС
             while (1) {
                 k = createks();
                 std::cout << "Текущие параметры КС:\n" << k.effective << "\n" << k.id << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw;
@@ -236,7 +233,7 @@ int main()
                 }
             }
         }
-        else if (inmenu == 3) {
+        case 3: { //просмотр всех объектов
             std::ifstream fin;
             fin.open("data.txt", std::ios::in);
             std::cout << "Трубы:\n";
@@ -249,7 +246,7 @@ int main()
             fin.close();
             fin.open("data.txt", std::ios::in);
             std::cout << "\nСтанции:\n";
-            while (getline(fin, currentline)) { 
+            while (getline(fin, currentline)) {
                 if (currentline == "kc") {
                     fin >> k.name >> k.numc >> k.numcw >> k.effective >> k.id;
                     std::cout << "\n" << k.name << "\n" << k.numc << "\n" << k.numcw << "\n" << k.effective << "\n" << k.id << "\n";
@@ -258,7 +255,7 @@ int main()
             fin.close();
             //std::cout << c;
         }
-        else if (inmenu == 4) {
+        case 4: { //загрузка и действие с объектом
             std::ifstream fin;
             std::cout << "Что вы хотите загрузить?\n1. Трубу\n2. KC\n";
             std::cin >> inmenu;
@@ -323,11 +320,12 @@ int main()
                 }
             }
         }
-        else if (inmenu == 0) {
+        case 0: {
             return 0;
         }
-        else {
+        default: {
             std::cout << "Нет такого пункта меню";
+        }
         }
     }
 
