@@ -1,10 +1,7 @@
-﻿
-
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <fstream>
 #include <vector>
-
 
 struct pipe { //структура трубы
     int id;
@@ -73,15 +70,15 @@ void readks() { // Функция чтения из файла для KC
     }
 }
 
-void printpipe(pipe pp) {
+void printpipe(pipe pp) { // Функция отображения одной трубы
     std::cout << "\nПараметры трубы:\n" << "Длина: " << p.length << "\nДиаметр: " << p.diameter << "\nСтатус в ремонте: " << p.fix << "\nID трубы: " << p.id << "\n";
 }
 
-void printks(ks pk) {
+void printks(ks pk) { // Функция отображения одной КС
     std::cout << "\nПараметры КС:\n" << "Название: " << k.name << "\nКол-во цехов: " << k.numc << "\nКол-во рабочих цехов: " << k.numcw << "\nКоэф. эффективности: " << k.effective << "\nID KC: " << k.id << "\n";;
 }
 
-pipe createpipe() { //функция создания трубы
+pipe createpipe() { // функция создания трубы
     p.id = pipes.size() + 1;
     int inmenup;
     std::cout << "\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n";
@@ -97,12 +94,18 @@ pipe createpipe() { //функция создания трубы
         readpipe();
         }
     }
-    printpipe(p);
-    pipes.push_back(p);
-    return p;
+    if (p.diameter <= 0 || p.length <= 0) {
+        std::cout << "В файле содержатся некорректные данные\n";
+        return p;
+    }
+    else {
+        printpipe(p);
+        pipes.push_back(p);
+        return p;
+    }
 };
 
-ks createks() {  //функция создания КС
+ks createks() {  // функция создания КС
     int inmenup;
     k.id = kses.size() + 1;
     std::cout << "\nКак вы хотите добавить КС?\n1. Ввести вручную\n2. Из файла\n";
@@ -123,37 +126,48 @@ ks createks() {  //функция создания КС
         }
     default: {
         readks();
+        break;
         }
     }
-    printks(k);
-    kses.push_back(k);
-    return k;
+    if (k.numc <= 0 || k.numcw <= 0 || k.effective <= 0 || k.numcw > k.numc) {
+        std::cout << "В файле содержатся некорректные данные\n";
+        return k;
+    }
+    else {
+        printks(k);
+        kses.push_back(k);
+        return k;
+    }
 };
 
-void loaddata() {
+void loaddata() { // Функция загрузки всех объектов в соовтетствующий массив
+    int pid = 1, kid = 1;
     std::string currentline;
     std::ifstream fin;
     fin.open("data.txt", std::ios::in);
-    while (getline(fin, currentline)) { //https://ru.stackoverflow.com/questions/258989/%d0%a7%d1%82%d0%b5%d0%bd%d0%b8%d0%b5-%d1%84%d0%b0%d0%b9%d0%bb%d0%b0-%d0%bf%d0%be%d1%81%d1%82%d1%80%d0%be%d1%87%d0%bd%d0%be
-        if (currentline == "pipe") {
-            fin >> p.length >> p.diameter >> p.fix >> p.id;
-            pipes.push_back(p);
+    if (fin.is_open()) {
+        while (getline(fin, currentline)) { //https://ru.stackoverflow.com/questions/258989/%d0%a7%d1%82%d0%b5%d0%bd%d0%b8%d0%b5-%d1%84%d0%b0%d0%b9%d0%bb%d0%b0-%d0%bf%d0%be%d1%81%d1%82%d1%80%d0%be%d1%87%d0%bd%d0%be
+            if (currentline == "pipe") {
+                fin >> p.length >> p.diameter >> p.fix;
+                p.id = pid;
+                pipes.push_back(p);
+                pid++;
+            }
+            else if (currentline == "kc") {
+                fin >> k.name >> k.numc >> k.numcw >> k.effective;
+                k.id = kid;
+                kses.push_back(k);
+                kid++;
+            }
         }
-        else if (currentline == "kc") {
-            fin >> k.name >> k.numc >> k.numcw >> k.effective >> k.id;
-            kses.push_back(k);
-        }
+        fin.close();
     }
-    //while (getline(fin, currentline)) { //https://ru.stackoverflow.com/questions/258989/%d0%a7%d1%82%d0%b5%d0%bd%d0%b8%d0%b5-%d1%84%d0%b0%d0%b9%d0%bb%d0%b0-%d0%bf%d0%be%d1%81%d1%82%d1%80%d0%be%d1%87%d0%bd%d0%be
-    //    if (currentline == "kc") {
-    //    fin >> k.name >> k.numc >> k.numcw >> k.effective >> k.id;
-    //    kses.push_back(k);
-    //    }
-    //    }
-    fin.close();
+    else {
+        std::cout << "Ошибка открытия файла";
+    }
 };
 
-void changepipe() {
+void changepipe() { // Функция остановки (запуска) цехов
     int wid, inmenu;
     while (1) {
         wid = entintvalue("\nВведите id трубы:\n");
@@ -178,7 +192,7 @@ void changepipe() {
     }
 }
 
-void changeks() {
+void changeks() { // Функция изменения статуса "В ремонте"
     int wid, inmenu;
     while (1) {
         wid = entintvalue("\nВведите id KC:\n");
@@ -208,7 +222,7 @@ void changeks() {
     }
 };
 
-void showall() {
+void showall() { // Отображение всех объектов
     int i;
     for (i = 0; i < pipes.size(); i++) {
         p = pipes[i];
@@ -236,7 +250,7 @@ void loadobject() {
     }
 }
 
-void save() {
+void save() { // Функция сохранения всего в файл
     int i;
     std::ofstream fin;
     fin.open("data.txt", std::ios::out);
@@ -253,7 +267,7 @@ void save() {
 int main()
 {
     std::string currentline;
-    int inmenu, i;
+    int inmenu;
     loaddata();
     while (1) {
         inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Загрузить и изменить\n5. Сохранить \n6. Выход\n");
