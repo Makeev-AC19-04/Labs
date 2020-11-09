@@ -18,14 +18,8 @@ struct ks {  //структура кс
     float effective;
 }; 
 
-pipe p;
-ks k;
-
-std::vector<pipe> pipes; // Массив труб
-std::vector<ks> kses; // Массив станций
-
 int entintvalue(const char * out) { // Функция корректного ввода целого числа
-    int in;
+    int in = 1;
     do {
         std::cout << out;
         std::cin.clear();
@@ -46,7 +40,7 @@ float entfloatvalue(const char* out) { // Функция корректного 
     return in;
 };
 
-void readpipe() { // Функция чтения из файла для трубы
+void readpipe(pipe p) { // Функция чтения из файла для трубы
     std::ifstream fin;
     fin.open("pipe.txt", std::ios::in);
     if (fin.is_open()) {
@@ -58,7 +52,7 @@ void readpipe() { // Функция чтения из файла для труб
     }
 };
 
-void readks() { // Функция чтения из файла для KC
+void readks(ks k) { // Функция чтения из файла для KC
     std::ifstream fin;
     fin.open("ks.txt", std::ios::in);
     if (fin.is_open()) {
@@ -70,19 +64,19 @@ void readks() { // Функция чтения из файла для KC
     }
 }
 
-void printpipe(pipe pp) { // Функция отображения одной трубы
+void printpipe(pipe p) { // Функция отображения одной трубы
     std::cout << "\nПараметры трубы:\n" << "Длина: " << p.length << "\nДиаметр: " << p.diameter << "\nСтатус в ремонте: " << p.fix << "\nID трубы: " << p.id << "\n";
 }
 
-void printks(ks pk) { // Функция отображения одной КС
+void printks(ks k) { // Функция отображения одной КС
     std::cout << "\nПараметры КС:\n" << "Название: " << k.name << "\nКол-во цехов: " << k.numc << "\nКол-во рабочих цехов: " << k.numcw << "\nКоэф. эффективности: " << k.effective << "\nID KC: " << k.id << "\n";;
 }
 
-pipe createpipe() { // функция создания трубы
+pipe createpipe(std::vector<pipe> pipes) { // функция создания трубы
+    pipe p;
     p.id = pipes.size() + 1;
     int inmenup;
-    std::cout << "\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n";
-    std::cin >> inmenup;
+    inmenup = entintvalue("\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n");
     switch (inmenup) {
     case 1: {
         p.length = entfloatvalue("Введите длину, km\n");
@@ -91,7 +85,7 @@ pipe createpipe() { // функция создания трубы
         break;
     }
     default: {
-        readpipe();
+        readpipe(p);
         }
     }
     if (p.diameter <= 0 || p.length <= 0) {
@@ -100,20 +94,19 @@ pipe createpipe() { // функция создания трубы
     }
     else {
         printpipe(p);
-        pipes.push_back(p);
         return p;
     }
 };
 
-ks createks() {  // функция создания КС
-    int inmenup;
+ks createks(std::vector<ks> kses) {  // функция создания КС
+    int inmenup; ks k;
     k.id = kses.size() + 1;
-    std::cout << "\nКак вы хотите добавить КС?\n1. Ввести вручную\n2. Из файла\n";
-    std::cin >> inmenup;
+    inmenup = entintvalue("\nКак вы хотите добавить КС?\n1. Ввести вручную\n2. Из файла\n");
     switch (inmenup) {
     case 1: {
             std::cout << "\nВведите название КС\n";
-            std::cin >> k.name;
+            std::cin.ignore(32767, '\n');
+            getline(std::cin, k.name);
             k.numc = entintvalue("Введите кол-во цехов\n");
             while (1) {
                 k.numcw = entintvalue("Введите кол-во рабочих цехов\n");
@@ -125,7 +118,7 @@ ks createks() {  // функция создания КС
             break;
         }
     default: {
-        readks();
+        readks(k);
         break;
         }
     }
@@ -140,8 +133,9 @@ ks createks() {  // функция создания КС
     }
 };
 
-void loaddata() { // Функция загрузки всех объектов в соовтетствующий массив
-    int pid = 1, kid = 1;
+void loaddata(std::vector<ks> kses, std::vector<pipe> pipes) { // Функция загрузки всех объектов в соовтетствующий массив
+    pipe p; ks k;
+    int pid = 0, kid = 0;
     std::string currentline;
     std::ifstream fin;
     fin.open("data.txt", std::ios::in);
@@ -167,7 +161,7 @@ void loaddata() { // Функция загрузки всех объектов �
     }
 };
 
-void changepipe() { // Функция остановки (запуска) цехов
+void changepipe(std::vector<pipe> pipes) { // Функция остановки (запуска) цехов
     int wid, inmenu;
     while (1) {
         wid = entintvalue("\nВведите id трубы:\n");
@@ -177,14 +171,12 @@ void changepipe() { // Функция остановки (запуска) цех
     }
     wid--; // Т.к. нумерация в массиве начинается с 0
     printpipe(pipes[wid]);
-    p = pipes[wid];
     std::cout << "\nХотите поменять статус в ремонте?\n1. Да\n2. Нет\n";
     std::cin >> inmenu;
     switch (inmenu) {
     case 1: {
-        p.fix = !p.fix;
+        pipes[wid].fix = !pipes[wid].fix;
         std::cout << "Признак в ремонте изменен на противоположный";
-        pipes[wid] = p;
     }
     default: {
         break;
@@ -192,8 +184,8 @@ void changepipe() { // Функция остановки (запуска) цех
     }
 }
 
-void changeks() { // Функция изменения статуса "В ремонте"
-    int wid, inmenu;
+void changeks(std::vector<ks> kses) { // Функция изменения статуса "В ремонте"
+    int wid;
     while (1) {
         wid = entintvalue("\nВведите id KC:\n");
         if (wid <= kses.size()) {
@@ -201,56 +193,26 @@ void changeks() { // Функция изменения статуса "В рем
         }
     }
     wid--; 
-    printks(kses[wid]);
-    k = kses[wid];
-    std::cout << "\nХотите запустить/остановить цеха?\n1. Да\n2. Нет\n";
-    std::cin >> inmenu;
-    switch (inmenu) {
-    case 1: {
         while (1)
         {
-            k.numcw = entintvalue("\n Введите новое число рабочих цехов\n");
-            if (k.numc - k.numcw >= 0) {
+            kses[wid].numcw = entintvalue("\n Введите новое число рабочих цехов\n");
+            if (kses[wid].numc - kses[wid].numcw >= 0) {
                 break;
             }
         }
-        kses[wid] = k;
-    }
-    default: {
-        break;
-    }
-    }
 };
 
-void showall() { // Отображение всех объектов
+void showall(std::vector<ks> kses, std::vector<pipe> pipes) { // Отображение всех объектов
     int i;
     for (i = 0; i < pipes.size(); i++) {
-        p = pipes[i];
-        printpipe(p);
+        printpipe(pipes[i]);
     }
     for (i = 0; i < kses.size(); i++) {
-        k = kses[i];
-        printks(k);
+        printks(kses[i]);
     }
 }
 
-void loadobject() {
-    int inmenu;
-    std::cout << "Что вы хотите загрузить?\n1. Трубу\n2. KC\n";
-    std::cin >> inmenu;
-    switch (inmenu) {
-    case 2: {
-        changeks();
-        break;
-    }
-    default: {
-        changepipe();
-        break;
-    }
-    }
-}
-
-void save() { // Функция сохранения всего в файл
+void save(std::vector<ks> kses, std::vector<pipe> pipes) { // Функция сохранения всего в файл
     int i;
     std::ofstream fin;
     fin.open("data.txt", std::ios::out);
@@ -267,32 +229,40 @@ void save() { // Функция сохранения всего в файл
 int main()
 {
     std::string currentline;
-    int inmenu;
-    loaddata();
+    int inmenu = 0;
+    pipe p;
+    ks k;
+    std::vector<pipe> pipes; // Массив труб
+    std::vector<ks> kses; // Массив станций
+    loaddata(kses, pipes);
     while (1) {
-        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Загрузить и изменить\n5. Сохранить \n6. Выход\n");
+        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Запуск/остановка цехов КС\n5. Изменить статус в ремонте для трубы\n6. Сохранить\n 7. Выход\n");
         switch (inmenu) {
         case 1: {
-            createpipe(); //добавление трубы
+            pipes.push_back(createpipe(pipes)); //добавление трубы
             break;
         }
         case 2: { //добавление КС
-            createks();
+            kses.push_back(createks(kses));
             break;
         }
         case 3: { //просмотр всех объектов
-            showall();
+            showall(kses, pipes);
             break;
         }
-        case 4: { //загрузка и действие с объектом
-            loadobject();
+        case 4: { //запуск или остановка цехов КС
+            changeks(kses);
             break;
         }
         case 5: {
-            save();
+            changepipe(pipes); //изменить статус "В ремонте" для трубы
             break;
         }
-        case 6: { //выход из программы
+        case 6: { //сохранение в файл
+            save(kses, pipes);
+            break;
+        }
+        case 7: { //выход из программы
             return 0;
         }
         }
