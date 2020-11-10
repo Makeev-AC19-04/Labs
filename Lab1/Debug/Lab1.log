@@ -1,9 +1,8 @@
 ﻿  Lab1.cpp
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(168,17): warning C4018: <=: несоответствие типов со знаком и без знака
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(191,17): warning C4018: <=: несоответствие типов со знаком и без знака
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(207,19): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(210,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(175,17): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(199,17): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(216,19): warning C4018: <: несоответствие типов со знаком и без знака
 C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(219,19): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(222,19): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(233,10): warning C4101: p: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(228,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Lab1.cpp(231,19): warning C4018: <: несоответствие типов со знаком и без знака
   Lab1.vcxproj -> C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab1\Debug\Lab1.exe
