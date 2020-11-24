@@ -1,0 +1,22 @@
+﻿  Lab2.cpp
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(185,34): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(237,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(264,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(279,22): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(271,22): warning C4101: change: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(271,14): warning C4101: inmenu: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(302,22): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(292,14): warning C4101: inmenu: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(292,37): warning C4101: i: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(316,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(320,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(334,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(337,23): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(356,21): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(366,21): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(395,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(422,19): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(423,66): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(442,17): warning C4101: i: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(68): warning C4715: readpipe: значение возвращается не при всех путях выполнения
+  Lab2.vcxproj -> C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Debug\Lab2.exe

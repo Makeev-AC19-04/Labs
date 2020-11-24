@@ -1,0 +1,2 @@
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Debug\Lab2.exe
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Debug\Lab2.pdb
