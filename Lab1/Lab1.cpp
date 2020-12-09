@@ -224,6 +224,7 @@ void showall(objects data) { // Отображение всех объектов
 void save(objects data) { // Функция сохранения всего в файл
     int i;
     std::ofstream fin;
+    if (fin.is_open()) {
     fin.open("data.txt", std::ios::out);
     for (i = 0; i < data.pipes.size(); i++) {
         fin << "\n" << "pipe" << "\n" << data.pipes[i].length << "\n" << data.pipes[i].diameter << "\n" << data.pipes[i].fix << "\n" << data.pipes[i].id << "\n";
@@ -233,6 +234,10 @@ void save(objects data) { // Функция сохранения всего в �
     }
     fin.close();
     std::cout << "\nДанные сохранены\n";
+}
+    else {
+        std::cout << "Ошибка открытия файла";
+    }
 }
 
 int main()

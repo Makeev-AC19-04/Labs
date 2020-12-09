@@ -2,27 +2,10 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "pipe.h"
+#include "ks.h"
 
 using namespace std;
-
-class pipe //класс трубы
-{
-public:
-    int id;
-    float length;
-    int diameter;
-    bool fix;
-};
-
-class ks //класс КС
-{
-public:
-    int id;
-    string name;
-    int numc;
-    int numcw;
-    float effective;
-};
 
 struct objects {
     vector<pipe> pipes; // Массив труб
@@ -51,64 +34,35 @@ float entfloatvalue(const string out) { // Функция корректного
     return in;
 };
 
-pipe readpipe(pipe p) { // Функция чтения из файла для трубы
-    ifstream fin;
-    string file;
-    cout << "\nВведите имя файла\n";
-    cin >> file;
-    fin.open(file, ios::in);
-    if (fin.is_open()) {
-        fin >> p.length >> p.diameter >> p.fix;
-        fin.close();
-        return p;
-    }
-    else {
-        cout << "Ошибка открытия файла";
-    }
-};
-
-ks readks(ks k) { // Функция чтения из файла для KC
-    ifstream fin;
-    string file;
-    cout << "\nВведите имя файла\n";
-    cin >> file;
-    fin.open(file, ios::in);
-    if (fin.is_open()) {
-        fin >> k.name >> k.numc >> k.numcw >> k.effective;
-        fin.close();
-    }
-    else {
-       cout << "Ошибка открытия файла";
-    }
-    return k;
-}
-
 void printpipe(pipe p) { // Функция отображения одной трубы
-    cout << "\nПараметры трубы:\n" << "Длина: " << p.length << "\nДиаметр: " << p.diameter << "\nСтатус в ремонте: " << p.fix << "\nID трубы: " << p.id << "\n";
+    cout << "\nПараметры трубы:\n" << "Длина: " << p.GetLength() << "\nДиаметр: " << p.GetDiameter() << "\nСтатус в ремонте: " << p.GetFix() << "\nID трубы: " << p.GetId() << "\n";
 }
 
 void printks(ks k) { // Функция отображения одной КС
-    cout << "\nПараметры КС:\n" << "Название: " << k.name << "\nКол-во цехов: " << k.numc << "\nКол-во рабочих цехов: " << k.numcw << "\nКоэф. эффективности: " << k.effective << "\nID KC: " << k.id << "\n";;
+    cout << "\nПараметры КС:\n" << "Название: " << k.GetName() << "\nКол-во цехов: " << k.GetNumc() << "\nКол-во рабочих цехов: " << k.GetNumcw() << "\nКоэф. эффективности: " << k.GetEffective() << "\nID KC: " << k.GetId() << "\n";
 }
 
 pipe createpipe(vector<pipe> pipes) { // функция создания трубы
     pipe p;
-    p.id = pipes.size() + 1;
+    string file;
+    p.SetId(pipes.size() + 1);
     int inmenup;
     while (1) {
         inmenup = entintvalue("\nКак вы хотите добавить трубу?\n1. Вручную\n2. Из файла\n");
         switch (inmenup) {
         case 1: {
-            p.length = entfloatvalue("Введите длину, km\n");
-            p.diameter = entintvalue("Введите диаметр, mm\n");
-            p.fix = 0;
+            p.SetLength(entfloatvalue("Введите длину, km\n"));
+            p.SetDiameter(entintvalue("Введите диаметр, mm\n"));
+            p.SetFix(0);
             break;
         }
         default: {
-            p = readpipe(p);
+            cout << "\nВведите имя файла\n";
+            cin >> file;
+            p.ReadPipe(file);
         }
         }
-        if (p.diameter > 0 || p.length > 0) {
+        if (p.GetDiameter() > 0 || p.GetLength() > 0) {
             printpipe(p);
             return p;
             break;
@@ -118,30 +72,31 @@ pipe createpipe(vector<pipe> pipes) { // функция создания тру�
 
 ks createks(vector<ks> kses) {  // функция создания КС
     int inmenup; ks k;
-    k.id = kses.size() + 1;
+    string file;
+    k.SetId(kses.size() + 1);
     while (1) {
         inmenup = entintvalue("\nКак вы хотите добавить КС?\n1. Ввести вручную\n2. Из файла\n");
         switch (inmenup) {
         case 1: {
-            cout << "\nВведите название КС\n";
-            cin.ignore(32767, '\n');
-            getline(cin, k.name);
-            k.numc = entintvalue("Введите кол-во цехов\n");
+            k.WriteName();
+            k.SetNumc(entintvalue("Введите кол-во цехов\n"));
             while (1) {
-                k.numcw = entintvalue("Введите кол-во рабочих цехов\n");
-                if (k.numcw <= k.numc) {
+                k.SetNumcw(entintvalue("Введите кол-во рабочих цехов\n"));
+                if (k.GetNumcw() <= k.GetNumc()) {
                     break;
                 }
             }
-            k.effective = entfloatvalue("Введите коеф. эффективности\n");
+            k.SetEffective(entfloatvalue("Введите коеф. эффективности\n"));
             break;
         }
         default: {
-            k = readks(k);
+            cout << "\nВведите имя файла\n";
+            cin >> file;
+            k.ReadKs(file);
             break;
         }
         }
-        if (k.numc > 0 || k.numcw > 0 || k.effective > 0 || k.numcw < k.numc) {
+        if (k.GetNumc() > 0 || k.GetNumcw() > 0 || k.GetEffective() > 0 || k.GetNumcw() < k.GetNumc()) {
             printks(k);
             kses.push_back(k);
             return k;
@@ -152,21 +107,31 @@ ks createks(vector<ks> kses) {  // функция создания КС
 objects loaddata() { // Функция загрузки всех объектов в соовтетствующий массив
     pipe p; ks k;
     objects data;
-    int pid = 1, kid = 1;
+    string file = "data.txt", name;
+    int pid = 1, kid = 1, diameter, numc, numcw;
+    float length, effective;
+    bool fix;
     string currentline;
     ifstream fin;
-    fin.open("data.txt", ios::in);
+    fin.open(file, ios::in);
     if (fin.is_open()) {
         while (getline(fin, currentline)) { //https://ru.stackoverflow.com/questions/258989/%d0%a7%d1%82%d0%b5%d0%bd%d0%b8%d0%b5-%d1%84%d0%b0%d0%b9%d0%bb%d0%b0-%d0%bf%d0%be%d1%81%d1%82%d1%80%d0%be%d1%87%d0%bd%d0%be
             if (currentline == "pipe") {
-                fin >> p.length >> p.diameter >> p.fix;
-                p.id = pid;
+                fin >> length >> diameter >> fix;
+                p.SetLength(length);
+                p.SetDiameter(diameter);
+                p.SetFix(fix);
+                p.SetId(pid);
                 data.pipes.push_back(p);
                 pid++;
             }
             else if (currentline == "kc") {
-                fin >> k.name >> k.numc >> k.numcw >> k.effective;
-                k.id = kid;
+                fin >> name >> numc >> numcw >> effective;
+                k.SetName(name);
+                k.SetNumc(numc);
+                k.SetNumcw(numcw);
+                k.SetEffective(effective);
+                k.SetId(kid);
                 data.kses.push_back(k);
                 kid++;
             }
@@ -182,15 +147,15 @@ objects loaddata() { // Функция загрузки всех объекто�
 objects changeonepipe(objects data, int wid, int inmenu, int change) {
     switch (inmenu) {
     case 1: {
-        data.pipes[wid].length = change;
+        data.pipes[wid].SetLength(change);
         break;
     }
     case 2: {
-        data.pipes[wid].diameter = change;
+        data.pipes[wid].SetDiameter(change);
         break;
     }
     default: {
-        data.pipes[wid].fix = !data.pipes[wid].fix;
+        data.pipes[wid].SetFix(!data.pipes[wid].GetFix());
         cout << "Признак в ремонте изменен на противоположный";
         break;
     }
@@ -202,18 +167,18 @@ objects changeoneks(objects data, int wid, int inmenu, int changeint, float chan
     switch (inmenu)
     {
     case 1: {
-        data.kses[wid].name = changestring;
+        data.kses[wid].SetName(changestring);
         break;
     }
     case 2: {
-        data.kses[wid].numc = changeint;
+        data.kses[wid].SetNumc(changeint);
         break;
     }
     case 3: {
         while (1)
         {
-            data.kses[wid].numcw = changeint;
-            if (data.kses[wid].numc - data.kses[wid].numcw >= 0) {
+            data.kses[wid].SetNumcw(changeint);
+            if (data.kses[wid].GetNumc() - data.kses[wid].GetNumcw() >= 0) {
                 break;
             }
             else {
@@ -223,7 +188,7 @@ objects changeoneks(objects data, int wid, int inmenu, int changeint, float chan
         break;
     }
     default: {
-        data.kses[wid].effective = changefloat;
+        data.kses[wid].SetEffective(changefloat);
         break;
     }
     }
@@ -314,11 +279,11 @@ objects changeks(objects data) { // Функция изменения стату
 void showall(objects data) { // Отображение всех объектов
     int i;
     for (i = 0; i < data.pipes.size(); i++) {
-        data.pipes[i].id = i + 1;
+        data.pipes[i].SetId(i + 1);
         printpipe(data.pipes[i]);
     }
     for (i = 0; i < data.kses.size(); i++) {
-        data.kses[i].id = i + 1;
+        data.kses[i].SetId(i + 1);
         printks(data.kses[i]);
     }
 }
@@ -332,10 +297,10 @@ void save(objects data) { // Функция сохранения всего в �
     fin.open(file, ios::out);
     if (fin.is_open()) {
         for (i = 0; i < data.pipes.size(); i++) {
-            fin << "\n" << "pipe" << "\n" << data.pipes[i].length << "\n" << data.pipes[i].diameter << "\n" << data.pipes[i].fix << "\n" << data.pipes[i].id << "\n";
+            fin << "\n" << "pipe" << "\n" << data.pipes[i].GetLength() << "\n" << data.pipes[i].GetDiameter() << "\n" << data.pipes[i].GetFix() << "\n" << data.pipes[i].GetId() << "\n";
         }
         for (i = 0; i < data.kses.size(); i++) {
-            fin << "\n" << "kc\n" << data.kses[i].name << "\n" << data.kses[i].effective << "\n" << data.kses[i].numc << "\n" << data.kses[i].numcw << "\n" << data.kses[i].id << "\n";
+            fin << "\n" << "kc\n" << data.kses[i].GetName() << "\n" << data.kses[i].GetEffective() << "\n" << data.kses[i].GetNumc() << "\n" << data.kses[i].GetNumcw() << "\n" << data.kses[i].GetId() << "\n";
         }
         fin.close();
         cout << "\nДанные сохранены\n";
@@ -393,7 +358,7 @@ objects searchpipe(objects data) {
         fix = 0;
     }
     for (i = 0; i < data.pipes.size(); i++) {
-        if (data.pipes[i].fix == fix) {
+        if (data.pipes[i].GetFix() == fix) {
             printpipe(data.pipes[i]);
             ids.push_back(i);
         }
@@ -420,8 +385,8 @@ objects searchks(objects data) {
     minpercent = entfloatvalue("Введите процент незадействованных цехов, нижний предел\n") / 100;
     maxpercent = entfloatvalue("Введите процент незадействованных цехов, верхний предел\n") / 100;
     for (i = 0; i < data.kses.size(); i++) {
-        percent = (data.kses[i].numc - data.kses[i].numcw + 0.0) / data.kses[i].numc; //+0.0 т.к. без этого отбрасывается остаток
-        if (data.kses[i].name == name && (((percent <= maxpercent) && ((percent >= minpercent))))) {
+        percent = (data.kses[i].GetNumc() - data.kses[i].GetNumcw() + 0.0) / data.kses[i].GetNumc(); //+0.0 т.к. без этого отбрасывается остаток
+        if (data.kses[i].GetName() == name && (((percent <= maxpercent) && ((percent >= minpercent))))) {
             printks(data.kses[i]);
             ids.push_back(i);
         }
