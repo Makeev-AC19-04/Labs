@@ -142,12 +142,14 @@
     <ClCompile Include="CPipe.cpp" />
     <ClCompile Include="ks.cpp" />
     <ClCompile Include="Lab2.cpp" />
+    <ClCompile Include="network.cpp" />
     <ClCompile Include="pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CKS.h" />
     <ClInclude Include="CPipe.h" />
     <ClInclude Include="ks.h" />
+    <ClInclude Include="network.h" />
     <ClInclude Include="pipe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,6 +4,7 @@
 #include <vector>
 #include "pipe.h"
 #include "ks.h"
+#include "network.h"
 
 using namespace std;
 
@@ -419,14 +420,83 @@ objects search(objects data) {
     return data;
 }
 
+void changenet(network web, objects data) {
+    int inmenu, wid;
+    cout << "\nЧто вы хотите сделать?\n1. Добавить КС\n2. Соединить 2 КС\n3. Удалить КС\n4. Разорвать связь между КС\n";
+    switch (inmenu)
+    {
+    case 1: {
+        cout << "\nВведите id КС. После последнего id введите 0\n";
+        while (1) {
+            cin >> wid;
+            if (wid == 0) {
+                break;
+            }
+            else if (web.CheckKs(data.kses[wid])) {
+                cout << "\nКС с id " << wid << " уже в сети\n";
+            }
+            else if (wid > data.kses.size()) {
+                cout << "\nid " << wid << " нет\n";
+            }
+            else {
+                web.SetStations(data.kses[wid]);
+            }
+        }
+    }
+    case 2: {
+        cout << "\nВведите id первой КС\n";
+        cin >> wid;
+        if (web.CheckKs(data.kses[wid])) {
+            //Добавляем 1-ю кс
+        }
+        else {
+            cout << "Этой КС нет в сети";
+        }
+        cout << "\nВведите id второй КС\n";
+        cin >> wid;
+        if (web.CheckKs(data.kses[wid])) {
+            //Добавляем 2-ю кс
+        }
+        else {
+            cout << "Этой КС нет в сети";
+        }
+        cout << "\nВведите id трубы\n";
+        cin >> wid;
+        if (wid == 0 || wid > data.pipes.size()) {
+            cout << "\nid " << wid << " нет\n";
+        }
+        else if (web.CheckPipe(data.pipes[wid])) {
+            cout << "\nТруба с id " << wid << " уже в сети\n";
+        }
+        else {
+            web.SetPipes(data.pipes[wid]);
+        }
+    }
+    case 3: {
+        cout << "\nВведите КС\n";
+        cin >> wid;
+        if (web.CheckKs(data.kses[wid])) {
+            web.DelKs(data.kses[wid]);
+        }
+        else {
+            cout << "\nТакой КС нет\n";
+        }
+    }
+    default: {
+
+    }
+    }
+}
+
 int main()
 {
     string currentline;
     int inmenu = 0;
     objects data;
+    network web;
     data = loaddata();
     while (1) {
-        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать КС\n5. Редактировать трубу(-ы)\n6. Удалить объект\n7. Поиск объектов\n8. Сохранить\n9. Выход\n");
+        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать КС\n5. Редактировать трубу(-ы)\n6. Удалить объект\n7. Поиск объектов\n8. Редактировать сеть\n9. Просмотреть матрицу смежностей графа\n10. Сохранить\n11. Выход\n");
         switch (inmenu) {
         case 1: {
             data.pipes.push_back(createpipe(data.pipes)); //добавление трубы
@@ -456,11 +526,17 @@ int main()
             data = search(data); //Поиск объектов по фильтру
             break;
         }
-        case 8: { //сохранение в файл
+        case 8: { //Редактирование сети
+            changenet(web, data);
+        }
+        case 9: { //Показать матрицу смежности
+
+        }
+        case 10: { //сохранение в файл
             save(data);
             break;
         }
-        case 9: { //выход из программы
+        case 11: { //выход из программы
             return 0;
         }
         }

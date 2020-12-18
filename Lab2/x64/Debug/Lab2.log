@@ -1,13 +1,14 @@
 ﻿  Lab2.cpp
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(48,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(76,28): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(150,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(236,22): warning C4101: change: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(236,14): warning C4101: inmenu: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(257,14): warning C4101: inmenu: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(257,37): warning C4101: i: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(388,76): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(407,17): warning C4101: i: неиспользованная локальная переменная
-  pipe.cpp
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(49,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(77,28): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(151,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(237,22): warning C4101: change: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(237,14): warning C4101: inmenu: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(258,14): warning C4101: inmenu: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(258,37): warning C4101: i: неиспользованная локальная переменная
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(389,76): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(408,17): warning C4101: i: неиспользованная локальная переменная
+  network.cpp
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(6,1): error C2600: network::network: нельзя определить специальную функцию-член, созданную компилятором (сначала необходимо объявить ее в классе)
   Создание кода...
-  Lab2.vcxproj -> C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\x64\Debug\Lab2.exe
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(426): error C4700: использована неинициализированная локальная переменная "inmenu"
