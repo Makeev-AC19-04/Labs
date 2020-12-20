@@ -421,7 +421,7 @@ objects search(objects data) {
 }
 
 void changenet(network web, objects data) {
-    int inmenu, wid;
+    int inmenu, wid, pwid, widin, widout;
     cout << "\nЧто вы хотите сделать?\n1. Добавить КС\n2. Соединить 2 КС\n3. Удалить КС\n4. Разорвать связь между КС\n";
     switch (inmenu)
     {
@@ -432,9 +432,6 @@ void changenet(network web, objects data) {
             if (wid == 0) {
                 break;
             }
-            else if (web.CheckKs(data.kses[wid])) {
-                cout << "\nКС с id " << wid << " уже в сети\n";
-            }
             else if (wid > data.kses.size()) {
                 cout << "\nid " << wid << " нет\n";
             }
@@ -444,36 +441,36 @@ void changenet(network web, objects data) {
         }
     }
     case 2: {
-        cout << "\nВведите id первой КС\n";
-        cin >> wid;
-        if (web.CheckKs(data.kses[wid])) {
-            //Добавляем 1-ю кс
-        }
-        else {
-            cout << "Этой КС нет в сети";
-        }
-        cout << "\nВведите id второй КС\n";
-        cin >> wid;
-        if (web.CheckKs(data.kses[wid])) {
-            //Добавляем 2-ю кс
-        }
-        else {
-            cout << "Этой КС нет в сети";
-        }
         cout << "\nВведите id трубы\n";
-        cin >> wid;
-        if (wid == 0 || wid > data.pipes.size()) {
-            cout << "\nid " << wid << " нет\n";
+        cin >> pwid;
+        if (pwid == 0 || pwid > data.pipes.size()) {
+            cout << "\nid " << pwid << " нет\n";
         }
-        else if (web.CheckPipe(data.pipes[wid])) {
-            cout << "\nТруба с id " << wid << " уже в сети\n";
+        else if (web.CheckPipe(data.pipes[pwid])) {
+            cout << "\nТруба с id " << pwid << " уже в сети\n";
         }
         else {
-            web.SetPipes(data.pipes[wid]);
+            web.SetPipes(data.pipes[pwid]);
+        }
+        cout << "\nВведите id первой КС (источник)\n";
+        cin >> wid;
+        if (web.CheckKs(data.kses[wid])) {
+            data.pipes[pwid].SetIn(data.kses[wid]);
+        }
+        else {
+            cout << "Этой КС нет в сети";
+        }
+        cout << "\nВведите id второй КС (сток)\n";
+        cin >> wid;
+        if (web.CheckKs(data.kses[wid])) {
+            data.pipes[pwid].SetOut(data.kses[wid]);
+        }
+        else {
+            cout << "Этой КС нет в сети";
         }
     }
     case 3: {
-        cout << "\nВведите КС\n";
+        cout << "\nВведите id КС\n";
         cin >> wid;
         if (web.CheckKs(data.kses[wid])) {
             web.DelKs(data.kses[wid]);
@@ -483,7 +480,20 @@ void changenet(network web, objects data) {
         }
     }
     default: {
-
+        cout << "\nВведите id первой КС (источник)\n";
+        cin >> widout;
+        if (web.CheckKs(data.kses[widout]) == false) {
+            cout << "Этой КС нет в сети";
+            break;
+        }
+        cout << "\nВведите id второй КС (сток)\n";
+        cin >> widin;
+        if (web.CheckKs(data.kses[widin]) == false) {
+            cout << "Этой КС нет в сети";
+            break;
+        }
+        web.DelPipe(widin, widout);
+        cout << "\nСвязь между этими КС разорвана\n";
     }
     }
 }
@@ -530,7 +540,8 @@ int main()
             changenet(web, data);
         }
         case 9: { //Показать матрицу смежности
-
+            web.SetMatr();
+            web.PrintMatr();
         }
         case 10: { //сохранение в файл
             save(data);

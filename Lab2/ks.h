@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "pipe.h"
 using namespace std;
 
 class ks
@@ -9,6 +10,9 @@ class ks
     int numc;
     int numcw;
     float effective;
+    pipe in;
+    pipe out;
+
 
 public:
     ks();
@@ -25,5 +29,6 @@ public:
     void SetEffective(float);
     void ReadKs(string);
     void WriteName();
-};
 
+
+};

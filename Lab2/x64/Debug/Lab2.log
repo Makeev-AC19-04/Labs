@@ -1,14 +1,58 @@
-﻿  Lab2.cpp
+﻿  ks.cpp
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(12,11): error C3646: out: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(12,11): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(13,10): error C2143: синтаксическая ошибка: отсутствие ";" перед "in"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(13,10): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(13,10): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(27,18): error C2061: синтаксическая ошибка: идентификатор "ks"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(28,13): error C3646: GetIn: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(28,13): error C2059: синтаксическая ошибка: (
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(28,21): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(29,19): error C2061: синтаксическая ошибка: идентификатор "ks"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(30,14): error C3646: GetOut: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(30,14): error C2059: синтаксическая ошибка: (
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(30,22): error C2238: непредвиденные лексемы перед ";"
+  Lab2.cpp
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(13,12): error C2143: синтаксическая ошибка: отсутствие ";" перед "in"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(13,12): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(13,12): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(14,13): error C3646: out: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(14,13): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
 C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(49,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
 C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(77,28): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
 C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(151,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(237,22): warning C4101: change: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(237,14): warning C4101: inmenu: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(258,14): warning C4101: inmenu: неиспользованная локальная переменная
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(258,37): warning C4101: i: неиспользованная локальная переменная
 C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(389,76): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(408,17): warning C4101: i: неиспользованная локальная переменная
   network.cpp
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(6,1): error C2600: network::network: нельзя определить специальную функцию-член, созданную компилятором (сначала необходимо объявить ее в классе)
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(12,11): error C3646: out: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(12,11): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(13,10): error C2143: синтаксическая ошибка: отсутствие ";" перед "in"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(13,10): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(13,10): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(27,18): error C2061: синтаксическая ошибка: идентификатор "ks"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(28,13): error C3646: GetIn: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(28,13): error C2059: синтаксическая ошибка: (
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(28,21): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(29,19): error C2061: синтаксическая ошибка: идентификатор "ks"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(30,14): error C3646: GetOut: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(30,14): error C2059: синтаксическая ошибка: (
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(30,22): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(7,1): error C2600: network::network: нельзя определить специальную функцию-член, созданную компилятором (сначала необходимо объявить ее в классе)
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(71,19): error C2039: "GetIn": не является членом "pipe".
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(6): message : см. объявление "pipe"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(71,63): error C2039: "GetOut": не является членом "pipe".
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(6): message : см. объявление "pipe"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(96,19): error C2039: "GetIn": не является членом "pipe".
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(6): message : см. объявление "pipe"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(96,59): error C2039: "GetOut": не является членом "pipe".
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(6): message : см. объявление "pipe"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(105,19): error C2039: "GetIn": не является членом "pipe".
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(6): message : см. объявление "pipe"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\network.cpp(105,59): error C2039: "GetOut": не является членом "pipe".
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\pipe.h(6): message : см. объявление "pipe"
+  pipe.cpp
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(13,12): error C2143: синтаксическая ошибка: отсутствие ";" перед "in"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(13,12): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(13,12): error C2238: непредвиденные лексемы перед ";"
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(14,13): error C3646: out: неизвестный спецификатор переопределения
+C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(14,13): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
   Создание кода...
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(426): error C4700: использована неинициализированная локальная переменная "inmenu"

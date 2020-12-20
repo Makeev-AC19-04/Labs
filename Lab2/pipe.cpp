@@ -1,4 +1,5 @@
 #include "pipe.h"
+#include "ks.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -64,5 +65,25 @@ void pipe::ReadPipe(string file)
     else {
         cout << "Ошибка открытия файла";
     }
+}
+
+void pipe::SetIn(ks k)
+{
+    in = k;
+}
+
+ks pipe::GetIn() const
+{
+    return in;
+}
+
+void pipe::SetOut(ks k)
+{
+    out = k;
+}
+
+ks pipe::GetOut() const
+{
+    return out;
 }
 

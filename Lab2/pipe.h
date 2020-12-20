@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ks.h"
 using namespace std;
 
 class pipe
@@ -8,6 +9,8 @@ class pipe
     float length;
     int diameter;
     bool fix;
+    ks out;
+    ks in;
 
 public:
     pipe();
@@ -21,5 +24,9 @@ public:
     bool GetFix() const;
     void SetFix(bool);
     void ReadPipe(string);
+    void SetIn(ks);
+    ks GetIn() const;
+    void SetOut(ks);
+    ks GetOut() const;
 };
 
