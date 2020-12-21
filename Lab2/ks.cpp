@@ -82,3 +82,29 @@ void ks::WriteName()
     cin.ignore(32767, '\n');
     getline(cin, name);
 }
+
+void ks::SetIn(pipe p)
+{
+    in = p;
+}
+
+pipe ks::GetIn() const
+{
+    return in;
+}
+
+void ks::SetOut(pipe p)
+{
+    out = p;
+}
+
+pipe ks::GetOut() const
+{
+    return out;
+}
+
+bool ks::operator==(ks)
+{
+    return true;
+}
+

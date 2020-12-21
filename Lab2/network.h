@@ -2,26 +2,28 @@
 #include <vector>
 #include "ks.h"
 #include "pipe.h"
+#include <map>
 using namespace std;
 
 class network
 {
-	vector <vector<bool>> MatrSmej;
+	map <int, map<int, bool>> MatrSmej;
 	vector <vector<pipe>> net;
-	vector <ks> netstations;
-	vector <pipe> netpipes;
+	map <int, ks> netstations;
+	map <int, pipe> netpipes;
 
 public:
+	network();
+	~network();
 	void SetMatr();
 	void PrintMatr();
 	void SetStations(ks);
-	vector<ks> GetStations() const;
-	bool CheckKs(ks);
-	void DelKs(ks);
+	bool CheckKs(int);
 	void SetPipes(pipe);
-	bool CheckPipe(pipe);
-	void DelPipe(int, int);
+	bool CheckPipe(int);
 	bool AreConnected(int, int);
-
+	int FindKs(int);
+	void SortNet();
+	bool IsTree();
+	void change(vector <pipe>, vector <ks>);
 };
-

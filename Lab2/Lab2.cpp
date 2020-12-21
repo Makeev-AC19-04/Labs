@@ -255,7 +255,7 @@ objects changepipe(objects data) { // Функция редактировани�
 }
 
 objects changeks(objects data) { // Функция изменения статуса "В ремонте"
-    int wid, inmenu, changeint = 0, i;
+    int wid, inmenu, changeint = 0;
     float changefloat = 0;
     string changestring = "";
     vector <int> ids;
@@ -405,7 +405,7 @@ objects searchks(objects data) {
 }
 
 objects search(objects data) {
-    int inmenu, i;
+    int inmenu;
     inmenu = entintvalue("\nЧто вы хотите найти?\n1.Трубу\n2. KC\n");
     switch (inmenu)
     {
@@ -420,84 +420,6 @@ objects search(objects data) {
     return data;
 }
 
-void changenet(network web, objects data) {
-    int inmenu, wid, pwid, widin, widout;
-    cout << "\nЧто вы хотите сделать?\n1. Добавить КС\n2. Соединить 2 КС\n3. Удалить КС\n4. Разорвать связь между КС\n";
-    switch (inmenu)
-    {
-    case 1: {
-        cout << "\nВведите id КС. После последнего id введите 0\n";
-        while (1) {
-            cin >> wid;
-            if (wid == 0) {
-                break;
-            }
-            else if (wid > data.kses.size()) {
-                cout << "\nid " << wid << " нет\n";
-            }
-            else {
-                web.SetStations(data.kses[wid]);
-            }
-        }
-    }
-    case 2: {
-        cout << "\nВведите id трубы\n";
-        cin >> pwid;
-        if (pwid == 0 || pwid > data.pipes.size()) {
-            cout << "\nid " << pwid << " нет\n";
-        }
-        else if (web.CheckPipe(data.pipes[pwid])) {
-            cout << "\nТруба с id " << pwid << " уже в сети\n";
-        }
-        else {
-            web.SetPipes(data.pipes[pwid]);
-        }
-        cout << "\nВведите id первой КС (источник)\n";
-        cin >> wid;
-        if (web.CheckKs(data.kses[wid])) {
-            data.pipes[pwid].SetIn(data.kses[wid]);
-        }
-        else {
-            cout << "Этой КС нет в сети";
-        }
-        cout << "\nВведите id второй КС (сток)\n";
-        cin >> wid;
-        if (web.CheckKs(data.kses[wid])) {
-            data.pipes[pwid].SetOut(data.kses[wid]);
-        }
-        else {
-            cout << "Этой КС нет в сети";
-        }
-    }
-    case 3: {
-        cout << "\nВведите id КС\n";
-        cin >> wid;
-        if (web.CheckKs(data.kses[wid])) {
-            web.DelKs(data.kses[wid]);
-        }
-        else {
-            cout << "\nТакой КС нет\n";
-        }
-    }
-    default: {
-        cout << "\nВведите id первой КС (источник)\n";
-        cin >> widout;
-        if (web.CheckKs(data.kses[widout]) == false) {
-            cout << "Этой КС нет в сети";
-            break;
-        }
-        cout << "\nВведите id второй КС (сток)\n";
-        cin >> widin;
-        if (web.CheckKs(data.kses[widin]) == false) {
-            cout << "Этой КС нет в сети";
-            break;
-        }
-        web.DelPipe(widin, widout);
-        cout << "\nСвязь между этими КС разорвана\n";
-    }
-    }
-}
-
 int main()
 {
     string currentline;
@@ -506,7 +428,7 @@ int main()
     network web;
     data = loaddata();
     while (1) {
-        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать КС\n5. Редактировать трубу(-ы)\n6. Удалить объект\n7. Поиск объектов\n8. Редактировать сеть\n9. Просмотреть матрицу смежностей графа\n10. Сохранить\n11. Выход\n");
+        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать КС\n5. Редактировать трубу(-ы)\n6. Удалить объект\n7. Поиск объектов\n8. Редактировать сеть\n9. Просмотреть матрицу смежностей графа\n10. Сохранить\n11. Топологическая сортировка\n12. Выход\n");
         switch (inmenu) {
         case 1: {
             data.pipes.push_back(createpipe(data.pipes)); //добавление трубы
@@ -537,17 +459,22 @@ int main()
             break;
         }
         case 8: { //Редактирование сети
-            changenet(web, data);
+            web.change(data.pipes, data.kses);
+            break;
         }
         case 9: { //Показать матрицу смежности
-            web.SetMatr();
+            //web.SetMatr();
             web.PrintMatr();
+            break;
         }
         case 10: { //сохранение в файл
             save(data);
             break;
         }
-        case 11: { //выход из программы
+        case 11: {
+            web.SortNet();//Топологическая сортировка
+        }
+        case 12: { //выход из программы
             return 0;
         }
         }

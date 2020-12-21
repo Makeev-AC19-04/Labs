@@ -13,7 +13,6 @@ class ks
     pipe in;
     pipe out;
 
-
 public:
     ks();
     ~ks();
@@ -29,6 +28,9 @@ public:
     void SetEffective(float);
     void ReadKs(string);
     void WriteName();
-
-
+    void SetIn(pipe);
+    pipe GetIn() const;
+    void SetOut(pipe);
+    pipe GetOut() const;
+    bool operator == (ks);
 };
