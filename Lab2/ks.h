@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "pipe.h"
 using namespace std;
 
@@ -10,8 +11,8 @@ class ks
     int numc;
     int numcw;
     float effective;
-    pipe in;
-    pipe out;
+    vector <int> in;
+    vector <int> out;
 
 public:
     ks();
@@ -29,8 +30,13 @@ public:
     void ReadKs(string);
     void WriteName();
     void SetIn(pipe);
-    pipe GetIn() const;
+    vector <int> GetIn() const;
     void SetOut(pipe);
-    pipe GetOut() const;
-    bool operator == (ks);
+    vector <int> GetOut() const;
+    string AllIns();
+    string AllOuts();
+    void ReadIns(string);
+    void ReadOuts(string);
+    void TryDelIn(int);
+    void TruDelOut(int);
 };

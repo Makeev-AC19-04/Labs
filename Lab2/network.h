@@ -1,29 +1,25 @@
 #pragma once
-#include <vector>
+#include <map>
 #include "ks.h"
 #include "pipe.h"
-#include <map>
-using namespace std;
+
 
 class network
 {
-	map <int, map<int, bool>> MatrSmej;
-	vector <vector<pipe>> net;
-	map <int, ks> netstations;
-	map <int, pipe> netpipes;
+	map <int, ks> stations;
+	map <int, pipe> pipes;
 
 public:
-	network();
-	~network();
-	void SetMatr();
-	void PrintMatr();
 	void SetStations(ks);
-	bool CheckKs(int);
+	bool CheckStations(ks); //проверка на наличие КС в сети
+	bool CheckPipes(pipe); //проверка трубы соответственно
+	void PrintWebKses();
 	void SetPipes(pipe);
-	bool CheckPipe(int);
-	bool AreConnected(int, int);
-	int FindKs(int);
-	void SortNet();
-	bool IsTree();
-	void change(vector <pipe>, vector <ks>);
+	void SetKsIn(int, pipe);
+	void SetKsOut(int, pipe);
+	void DelKs(int);
+	void DelPipe(int);
+	void LoadNet();
+	void SaveNet();
 };
+

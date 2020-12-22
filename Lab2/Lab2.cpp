@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <map>
 #include "pipe.h"
 #include "ks.h"
 #include "network.h"
@@ -108,7 +109,7 @@ ks createks(vector<ks> kses) {  // функция создания КС
 objects loaddata() { // Функция загрузки всех объектов в соовтетствующий массив
     pipe p; ks k;
     objects data;
-    string file = "data.txt", name;
+    string file = "data.txt", name, in, out;
     int pid = 1, kid = 1, diameter, numc, numcw;
     float length, effective;
     bool fix;
@@ -127,12 +128,14 @@ objects loaddata() { // Функция загрузки всех объекто�
                 pid++;
             }
             else if (currentline == "kc") {
-                fin >> name >> numc >> numcw >> effective;
+                fin >> name >> numc >> numcw >> effective >> in >> out;
                 k.SetName(name);
                 k.SetNumc(numc);
                 k.SetNumcw(numcw);
                 k.SetEffective(effective);
                 k.SetId(kid);
+                k.ReadIns(in);
+                k.ReadOuts(out);
                 data.kses.push_back(k);
                 kid++;
             }
@@ -157,7 +160,7 @@ objects changeonepipe(objects data, int wid, int inmenu, int change) {
     }
     default: {
         data.pipes[wid].SetFix(!data.pipes[wid].GetFix());
-        cout << "Признак в ремонте изменен на противоположный";
+        cout << "\nПризнак в ремонте изменен на противоположный\n";
         break;
     }
     }
@@ -301,7 +304,7 @@ void save(objects data) { // Функция сохранения всего в �
             fin << "\n" << "pipe" << "\n" << data.pipes[i].GetLength() << "\n" << data.pipes[i].GetDiameter() << "\n" << data.pipes[i].GetFix() << "\n" << data.pipes[i].GetId() << "\n";
         }
         for (i = 0; i < data.kses.size(); i++) {
-            fin << "\n" << "kc\n" << data.kses[i].GetName() << "\n" << data.kses[i].GetEffective() << "\n" << data.kses[i].GetNumc() << "\n" << data.kses[i].GetNumcw() << "\n" << data.kses[i].GetId() << "\n";
+            fin << "\n" << "kc\n" << data.kses[i].GetName() << "\n" << data.kses[i].GetEffective() << "\n" << data.kses[i].GetNumc() << "\n" << data.kses[i].GetNumcw() << "\n" << data.kses[i].GetId() << "\n" << data.kses[i].AllIns() << "\n" << data.kses[i].AllOuts() << "\n";
         }
         fin.close();
         cout << "\nДанные сохранены\n";
@@ -420,15 +423,107 @@ objects search(objects data) {
     return data;
 }
 
+void changenet(network& web, objects data) {
+    int inmenu, id, pid;
+    bool menu = 1;
+    while (menu == 1) {
+        inmenu = entintvalue("\nЧто вы хотите сделать?\n1. Добавить КС в сеть\n2. Соединить 2 КС\n3. Убрать КС из сети\n4.Убрать трубу из сети(разорвать связь между КС)\n5. Просмотреть сеть\n6. Выполнить топологическую сортировку\n7. Сохранить сеть\n9. Назад\n");
+        switch (inmenu)
+        {
+        case 1: {
+            cout << "\nВведите id КС\n";
+            cin >> id;
+            if (id >= data.kses.size()) {
+                cout << "\nТакой КС нет\n";
+            }
+            else if (web.CheckStations(data.kses[id - 1]))
+                cout << "\nЭта КС уже в сети\n";
+            else
+            {
+                web.SetStations(data.kses[id - 1]);
+            }
+            break;
+        }
+        case 2: {
+            cout << "\nВведите id трубы\n";
+            cin >> id;
+            if (id > data.pipes.size()) {
+                cout << "\nТакой трубы нет\n";
+                break;
+            }
+            else if (web.CheckPipes(data.pipes[id - 1])) {
+                cout << "\nЭта труба уже в сети\n";
+            }
+            else {
+                web.SetPipes(data.pipes[id - 1]);
+            }
+            pid = id;
+            cout << "\nВведите id первой КС (источник)\n";
+            cin >> id;
+            if (web.CheckStations(data.kses[id - 1]) || id != 0) {
+                web.SetKsOut(id, data.pipes[pid - 1]);
+            }
+            else {
+                cout << "\nЭтой КС нет в сети\n";
+            }
+            cout << "\nВведите id второй КС (сток)\n";
+            cin >> id;
+            if (web.CheckStations(data.kses[id - 1]) || id != 0) {
+                web.SetKsIn(id, data.pipes[pid - 1]);
+                cout << "\nСвязь установлена\n";
+            }
+            else {
+                cout << "\nЭтой КС нет в сети\n";
+            }
+            break;
+        }
+        case 3: {
+            id = entintvalue("\nВведите id KC\n");
+            if (web.CheckStations(data.kses[id - 1])) {
+                web.DelKs(id);
+                cout << "\nКС удалена\n";
+            }
+            else {
+                cout << "\nТакой КС нет в сети\n";
+            }
+            break;
+        }
+        case 4: {
+            pid = entintvalue("\nВведите id трубы\n");
+            if (web.CheckPipes(data.pipes[pid - 1])) {
+                web.DelPipe(pid);
+                cout << "\nТруба удалена\n";
+            }
+            else {
+                cout << "\nТакой трубы нет в сети\n";
+            }
+            break;
+        }
+        case 5: {
+            web.PrintWebKses();
+            break;
+        }
+        case 7: {
+            web.SaveNet();
+            break;
+        }
+        default:
+            menu = 0;
+            break;
+        }
+    }
+}
+
 int main()
 {
     string currentline;
     int inmenu = 0;
     objects data;
     network web;
+    web.LoadNet();
     data = loaddata();
     while (1) {
-        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать КС\n5. Редактировать трубу(-ы)\n6. Удалить объект\n7. Поиск объектов\n8. Редактировать сеть\n9. Просмотреть матрицу смежностей графа\n10. Сохранить\n11. Топологическая сортировка\n12. Выход\n");
+        inmenu = entintvalue("\nМеню:\n1. Добавить трубу\n2. Добавить КС\n3. Просмотр всех объектов\n4. Редактировать КС\n5. Редактировать трубу(-ы)\n6. Удалить объект\n7. Поиск объектов\n8. Работа с сетью\n9. Сохранить\n10. Выход\n");
         switch (inmenu) {
         case 1: {
             data.pipes.push_back(createpipe(data.pipes)); //добавление трубы
@@ -458,23 +553,15 @@ int main()
             data = search(data); //Поиск объектов по фильтру
             break;
         }
-        case 8: { //Редактирование сети
-            web.change(data.pipes, data.kses);
+        case 8: { //Работа с сетью
+            changenet(web, data);
             break;
         }
-        case 9: { //Показать матрицу смежности
-            //web.SetMatr();
-            web.PrintMatr();
-            break;
-        }
-        case 10: { //сохранение в файл
+        case 9: { //сохранение в файл
             save(data);
             break;
         }
-        case 11: {
-            web.SortNet();//Топологическая сортировка
-        }
-        case 12: { //выход из программы
+        case 10: { //выход из программы
             return 0;
         }
         }
