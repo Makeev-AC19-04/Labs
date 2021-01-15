@@ -1,13 +1,2 @@
-﻿  Lab2.cpp
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(32,20): error C2061: синтаксическая ошибка: идентификатор "pipe"
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(34,21): error C2061: синтаксическая ошибка: идентификатор "pipe"
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(50,29): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(78,28): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(154,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\Lab2.cpp(392,76): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-  ks.cpp
-  network.cpp
-  pipe.cpp
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(32,20): error C2061: синтаксическая ошибка: идентификатор "pipe"
-C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\ks.h(34,21): error C2061: синтаксическая ошибка: идентификатор "pipe"
-  Создание кода...
+﻿  network.cpp
+  Lab2.vcxproj -> C:\Users\wane2\Documents\Задания\Алгоритмические языки\Labs\Lab2\x64\Debug\Lab2.exe

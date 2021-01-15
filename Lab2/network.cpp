@@ -7,6 +7,16 @@ void network::SetStations(ks  k)
 	stations.insert(make_pair(k.GetId(), k));
 }
 
+void network::SetMapStations(map<int, ks> kses)
+{
+	stations = kses;
+}
+
+map<int, ks> network::GetMapStations()
+{
+	return stations;
+}
+
 bool network::CheckStations(ks k)
 {
 	if (stations.find(k.GetId()) == stations.end()) { //https://coderoad.ru/1939953/%D0%9A%D0%B0%D0%BA-%D0%BD%D0%B0%D0%B9%D1%82%D0%B8-%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D1%83%D0%B5%D1%82-%D0%BB%D0%B8-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BA%D0%BB%D1%8E%D1%87-%D0%B2-C-std-map
@@ -42,12 +52,12 @@ void network::SetPipes(pipe p)
 
 void network::SetKsIn(int id, pipe p)
 {
-	stations[id].SetIn(p);
+	stations[id].SetIn(p.GetId());
 }
 
 void network::SetKsOut(int id, pipe p)
 {
-	stations[id].SetOut(p);
+	stations[id].SetOut(p.GetId());
 }
 
 void network::DelKs(int id)
@@ -66,8 +76,9 @@ void network::DelKs(int id)
 	stations.erase(id);
 }
 
-void network::DelPipe(int id)
+void network::DelPipe(int id) //проверка на наличие трубы
 {
+	//if (CheckPipes())
 	for (auto& ks : stations) {
 		stations[ks.first].TruDelOut(id);
 		stations[ks.first].TryDelIn(id);
@@ -96,7 +107,7 @@ void network::LoadNet()
 				pipes.insert(make_pair(pid, p));
 			}
 			else if (currentline == "kc") {
-				f >> name >> numc >> numcw >> kid >> effective >> in >> out;
+				f >> name >> effective >> numc >> numcw >> kid  >> in >> out;
 				k.SetName(name);
 				k.SetNumc(numc);
 				k.SetNumcw(numcw);
@@ -105,6 +116,7 @@ void network::LoadNet()
 				k.ReadIns(in);
 				k.ReadOuts(out);
 				stations.insert(make_pair(kid, k));
+				k.ClearPipes();
 			}
 		}
 		f.close();
@@ -126,8 +138,67 @@ void network::SaveNet()
 		for (auto& p : pipes) {
 			f << "\n" << "pipe" << "\n" << pipes[p.first].GetLength() << "\n" << pipes[p.first].GetDiameter() << "\n" << pipes[p.first].GetFix() << "\n" << p.first << endl;
 		}
+		cout << "\nСеть сохранена\n";
 	}
 	else {
 		cout << "\nОшибка открытия файла\n";
 	}
+}
+
+bool network::checksort() {
+	bool check = true;
+	vector <ks> cycle;
+	for (auto& ks : stations) {
+		if (ks.second.GetIn().size() >= 3) {
+			cout << "\nЭтот граф содержит цикл, его нельзя отсортировать\n";
+			check = false;
+		}
+		else if (ks.second.GetIn().size() == 1 && ks.second.GetOut().size() == 1) {
+			cout << "\nГраф содержит изолированную вершину, сортировка невозможна\n";
+			check = false;
+		}
+
+		else if (ks.second.GetIn().size() == 1) {
+			cycle.push_back(ks.second);
+		}
+	}
+	if (cycle.size() == 0) {
+		cout << "\nЭтот граф содержит цикл, его нельзя отсортировать\n";
+		check = false;
+	}
+	return check;
+}
+
+void network::sort()
+{
+	network ns;
+	ns.SetMapStations(stations);
+	vector <int> kvsorted;
+	int begin = 1;
+	if (checksort()) {
+		kvsorted = dosort(ns);
+		cout << "№ вершины\t" << "Id KC\n";
+		for (int i = 0; i < kvsorted.size(); i++) {
+			cout << i + 1 << "\t\t" << kvsorted[i] << "\n";
+		}
+	}
+}
+
+vector<int> network::dosort(network& ns)
+{
+	vector <int> kvsorted;
+	for (auto& k : ns.GetMapStations()) {
+		if (ns.GetMapStations().size() == 1) {
+			kvsorted.push_back(k.second.GetId());
+		}
+		if (k.second.GetIn().size() == 1 && k.second.GetOut().size() != 1) {
+			kvsorted.push_back(k.second.GetId());
+			ns.DelKs(k.second.GetId());
+		}
+	}
+	for (auto& k : ns.GetMapStations()) {
+		kvsorted.push_back(k.second.GetId());
+		ns.DelKs(k.second.GetId());
+	}
+	return kvsorted;
 }

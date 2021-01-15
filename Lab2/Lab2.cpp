@@ -109,7 +109,7 @@ ks createks(vector<ks> kses) {  // функция создания КС
 objects loaddata() { // Функция загрузки всех объектов в соовтетствующий массив
     pipe p; ks k;
     objects data;
-    string file = "data.txt", name, in, out;
+    string file = "data.txt", name;
     int pid = 1, kid = 1, diameter, numc, numcw;
     float length, effective;
     bool fix;
@@ -128,14 +128,12 @@ objects loaddata() { // Функция загрузки всех объекто�
                 pid++;
             }
             else if (currentline == "kc") {
-                fin >> name >> numc >> numcw >> effective >> in >> out;
+                fin >> name >> numc >> numcw >> effective;
                 k.SetName(name);
                 k.SetNumc(numc);
                 k.SetNumcw(numcw);
                 k.SetEffective(effective);
                 k.SetId(kid);
-                k.ReadIns(in);
-                k.ReadOuts(out);
                 data.kses.push_back(k);
                 kid++;
             }
@@ -304,7 +302,7 @@ void save(objects data) { // Функция сохранения всего в �
             fin << "\n" << "pipe" << "\n" << data.pipes[i].GetLength() << "\n" << data.pipes[i].GetDiameter() << "\n" << data.pipes[i].GetFix() << "\n" << data.pipes[i].GetId() << "\n";
         }
         for (i = 0; i < data.kses.size(); i++) {
-            fin << "\n" << "kc\n" << data.kses[i].GetName() << "\n" << data.kses[i].GetEffective() << "\n" << data.kses[i].GetNumc() << "\n" << data.kses[i].GetNumcw() << "\n" << data.kses[i].GetId() << "\n" << data.kses[i].AllIns() << "\n" << data.kses[i].AllOuts() << "\n";
+            fin << "\n" << "kc\n" << data.kses[i].GetName() << "\n" << data.kses[i].GetEffective() << "\n" << data.kses[i].GetNumc() << "\n" << data.kses[i].GetNumcw() << "\n" << data.kses[i].GetId() << "\n";
         }
         fin.close();
         cout << "\nДанные сохранены\n";
@@ -433,7 +431,7 @@ void changenet(network& web, objects data) {
         case 1: {
             cout << "\nВведите id КС\n";
             cin >> id;
-            if (id >= data.kses.size()) {
+            if (id > data.kses.size()) {
                 cout << "\nТакой КС нет\n";
             }
             else if (web.CheckStations(data.kses[id - 1]))
@@ -453,6 +451,7 @@ void changenet(network& web, objects data) {
             }
             else if (web.CheckPipes(data.pipes[id - 1])) {
                 cout << "\nЭта труба уже в сети\n";
+                break;
             }
             else {
                 web.SetPipes(data.pipes[id - 1]);
@@ -501,6 +500,10 @@ void changenet(network& web, objects data) {
         }
         case 5: {
             web.PrintWebKses();
+            break;
+        }
+        case 6: {
+            web.sort();
             break;
         }
         case 7: {

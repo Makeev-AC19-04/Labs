@@ -88,9 +88,9 @@ void ks::WriteName()
     getline(cin, name);
 }
 
-void ks::SetIn(pipe p)
+void ks::SetIn(int p)
 {
-    in.push_back(p.GetId());
+    in.push_back(p);
 }
 
 vector <int> ks::GetIn() const
@@ -98,9 +98,9 @@ vector <int> ks::GetIn() const
     return in;
 }
 
-void ks::SetOut(pipe p)
+void ks::SetOut(int p)
 {
-    out.push_back(p.GetId());
+    out.push_back(p);
 }
 
 vector <int> ks::GetOut() const
@@ -113,16 +113,20 @@ string ks::AllIns()
     string str;
     for (auto& i : in) {
         str.append(to_string(i));
-        str.append(", ");
+        str.append(",");
     }
+    str.append(";");
     return str;
 }
 
 void ks::ReadIns(string s)
 {
     for (int i = 0; i < s.length(); ++i) {
-        if (s[i] != ',' && s[i] != ' ') {
-            in.push_back(s[i]);
+        if (s[i] != ',' && s[i] != ' ' && s[i] != '0' && s[i] != ';') {
+            in.push_back(s[i] - '0');
+        }
+        else if (s[i] == ';') {
+            break;
         }
     }
 }
@@ -132,16 +136,20 @@ string ks::AllOuts()
     string str;
     for (auto& i : out) {
         str.append(to_string(i));
-        str.append(", ");
+        str.append(",");
     }
+    str.append(";");
     return str;
 }
 
 void ks::ReadOuts(string s)
 {
     for (int i = 0; i < s.length(); ++i) {
-        if (s[i] != ',' && s[i] != ' ') {
-            out.push_back(s[i]);
+        if (s[i] != ',' && s[i] != ' ' && s[i] != '0' && s[i] != ';') {
+            out.push_back(s[i] - '0');
+        }
+        else if (s[i] == ';') {
+            break;
         }
     }
 }
@@ -154,6 +162,12 @@ void ks::TryDelIn(int d)
 void ks::TruDelOut(int d)
 {
     out.erase(std::remove(out.begin(), out.end(), d), out.end());
+}
+
+void ks::ClearPipes()
+{
+    in = { 0 };
+    out = { 0 };
 }
 
 

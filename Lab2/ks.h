@@ -11,8 +11,8 @@ class ks
     int numc;
     int numcw;
     float effective;
-    vector <int> in;
-    vector <int> out;
+    vector <int> in = { 0 };
+    vector <int> out = { 0 };
 
 public:
     ks();
@@ -29,9 +29,9 @@ public:
     void SetEffective(float);
     void ReadKs(string);
     void WriteName();
-    void SetIn(pipe);
+    void SetIn(int);
     vector <int> GetIn() const;
-    void SetOut(pipe);
+    void SetOut(int);
     vector <int> GetOut() const;
     string AllIns();
     string AllOuts();
@@ -39,4 +39,5 @@ public:
     void ReadOuts(string);
     void TryDelIn(int);
     void TruDelOut(int);
+    void ClearPipes();
 };
