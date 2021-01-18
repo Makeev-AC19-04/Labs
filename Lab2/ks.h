@@ -13,6 +13,7 @@ class ks
     float effective;
     vector <int> in = { 0 };
     vector <int> out = { 0 };
+    bool done = 0;
 
 public:
     ks();
@@ -40,4 +41,6 @@ public:
     void TryDelIn(int);
     void TruDelOut(int);
     void ClearPipes();
+    void SetDone(bool);
+    bool GetDone();
 };

@@ -9,7 +9,8 @@ class pipe
     float length;
     int diameter;
     bool fix;
-
+    float performance = SetPerf();
+    int weight = SetWeight();
 
 public:
     pipe();
@@ -23,6 +24,8 @@ public:
     bool GetFix() const;
     void SetFix(bool);
     void ReadPipe(string);
-
+    float SetPerf();
+    int SetWeight();
+    float GetPerf();
 };
 

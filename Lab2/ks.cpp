@@ -170,4 +170,14 @@ void ks::ClearPipes()
     out = { 0 };
 }
 
+void ks::SetDone(bool b)
+{
+    done = b;
+}
+
+bool ks::GetDone()
+{
+    return done;
+}
+
 

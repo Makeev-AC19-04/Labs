@@ -422,10 +422,10 @@ objects search(objects data) {
 }
 
 void changenet(network& web, objects data) {
-    int inmenu, id, pid;
+    int inmenu, id, pid, begin, end;
     bool menu = 1;
     while (menu == 1) {
-        inmenu = entintvalue("\nЧто вы хотите сделать?\n1. Добавить КС в сеть\n2. Соединить 2 КС\n3. Убрать КС из сети\n4.Убрать трубу из сети(разорвать связь между КС)\n5. Просмотреть сеть\n6. Выполнить топологическую сортировку\n7. Сохранить сеть\n9. Назад\n");
+        inmenu = entintvalue("\nЧто вы хотите сделать?\n1. Добавить КС в сеть\n2. Соединить 2 КС\n3. Убрать КС из сети\n4.Убрать трубу из сети(разорвать связь между КС)\n5. Просмотреть сеть\n6. Выполнить топологическую сортировку\n7. Рассчитать максимальный поток\n8. Рассчитать кратчайший путь\n9. Сохранить сеть\n10. Назад\n");
         switch (inmenu)
         {
         case 1: {
@@ -503,10 +503,42 @@ void changenet(network& web, objects data) {
             break;
         }
         case 6: {
-            web.sort();
+            web.sort(); // Топологическая сортировка
             break;
         }
         case 7: {
+            cout << "\nВведите id первой КС (начало)\n";
+            while (1)
+            {
+                cin >> begin;
+                if (web.CheckStations(data.kses[begin-1])) {
+                    break;
+                }
+                else {
+                    cout << "\nЭтой КС нет в сети\n";
+                }
+
+            }
+            cout << "\nВведите id второй КС (конец)\n";
+            while (1)
+            {
+                cin >> end;
+                if (web.CheckStations(data.kses[end - 1]) && begin != end) {
+                    break;
+                }
+                else {
+                    cout << "\nЭтой КС нет в сети\n";
+                }
+
+            }
+            web.MaxFlow(data.kses[begin-1], data.kses[end - 1]); //Рассчет максимального потока в сети
+            break;
+        }
+        case 8: {
+            web.MinDistance(data.kses[begin - 1], data.kses[end - 1]); //Рассчет минимального расстояния между 2 КС
+            break;
+        }
+        case 9: {
             web.SaveNet();
             break;
         }

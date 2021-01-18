@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cmath>
+
 
 pipe::pipe()
 {
@@ -66,5 +68,32 @@ void pipe::ReadPipe(string file)
     else {
         cout << "Ошибка открытия файла";
     }
+}
+
+float pipe::SetPerf()
+{
+    if (fix != 1) {
+        return sqrt(pow(diameter, 5) / length);
+    }
+    else {
+        return 0;
+    }
+}
+
+int pipe::SetWeight()
+{
+    int weight;
+    if (fix != 1) {
+        weight = length;
+    }
+    else {
+        weight = 99999999999999999;
+    }
+    return weight;
+}
+
+float pipe::GetPerf()
+{
+    return performance;
 }
 

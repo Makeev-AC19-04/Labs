@@ -8,6 +8,12 @@ class network
 {
 	map <int, ks> stations;
 	map <int, pipe> pipes;
+	struct listpipe
+	{
+		pipe p;
+		int in = 0, out = 0;
+	};
+	vector <listpipe> list;
 
 public:
 	void SetStations(ks);
@@ -26,5 +32,13 @@ public:
 	bool checksort();
 	void sort();
 	vector <int> dosort(network&);
+	void MaxFlow(ks, ks);
+	void MinDistance(ks, ks);
+	vector <vector <pipe>> PipeWay(ks, ks);
+	void GenList();
+	void PrintList();
+	bool CanCome(ks, ks);
+	void ClearDone();
+	pipe GetPipe(ks, ks);
 };
 

@@ -20,10 +20,10 @@ map<int, ks> network::GetMapStations()
 bool network::CheckStations(ks k)
 {
 	if (stations.find(k.GetId()) == stations.end()) { //https://coderoad.ru/1939953/%D0%9A%D0%B0%D0%BA-%D0%BD%D0%B0%D0%B9%D1%82%D0%B8-%D1%81%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D1%83%D0%B5%D1%82-%D0%BB%D0%B8-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BA%D0%BB%D1%8E%D1%87-%D0%B2-C-std-map
-		return false; //Не в КС
+		return false; //Не в сети
 	}
 	else {
-		return true; //В КС
+		return true; //В сети
 	}
 }
 
@@ -148,19 +148,18 @@ void network::SaveNet()
 bool network::checksort() {
 	bool check = true;
 	vector <ks> cycle;
+	vector <ks> gone;
+	ks k;
+	int c = 0;
 	for (auto& ks : stations) {
-		if (ks.second.GetIn().size() >= 3) {
-			cout << "\nЭтот граф содержит цикл, его нельзя отсортировать\n";
-			check = false;
-		}
-		else if (ks.second.GetIn().size() == 1 && ks.second.GetOut().size() == 1) {
+		if (ks.second.GetIn().size() == 1 && ks.second.GetOut().size() == 1) {
 			cout << "\nГраф содержит изолированную вершину, сортировка невозможна\n";
 			check = false;
 		}
-
 		else if (ks.second.GetIn().size() == 1) {
 			cycle.push_back(ks.second);
 		}
+		gone.push_back(ks.second);
 	}
 	if (cycle.size() == 0) {
 		cout << "\nЭтот граф содержит цикл, его нельзя отсортировать\n";
@@ -182,6 +181,7 @@ void network::sort()
 			cout << i + 1 << "\t\t" << kvsorted[i] << "\n";
 		}
 	}
+	ClearDone();
 }
 
 vector<int> network::dosort(network& ns)
@@ -191,14 +191,112 @@ vector<int> network::dosort(network& ns)
 		if (ns.GetMapStations().size() == 1) {
 			kvsorted.push_back(k.second.GetId());
 		}
-		if (k.second.GetIn().size() == 1 && k.second.GetOut().size() != 1) {
-			kvsorted.push_back(k.second.GetId());
-			ns.DelKs(k.second.GetId());
+		if (k.first == 1) {
+			kvsorted.push_back(k.first);
+		}
+		k.second.SetDone(1);
+		for (auto& ks2 : stations) {
+			if (CanCome(k.second, ks2.second) && k.first != 1) {
+				if (ks2.second.GetDone()) {
+					kvsorted = { 0 };
+					cout << "\nЦикл\n";
+					return kvsorted;
+				}
+				else {
+					kvsorted.push_back(ks2.first);
+				}
+			}
 		}
 	}
-	for (auto& k : ns.GetMapStations()) {
-		kvsorted.push_back(k.second.GetId());
-		ns.DelKs(k.second.GetId());
-	}
 	return kvsorted;
+}
+
+void network::MaxFlow(ks begin, ks end)
+{
+	PipeWay(begin, end);
+}
+
+void network::MinDistance(ks begin, ks end)
+{
+}
+
+vector<vector<pipe>> network::PipeWay(ks begin, ks end)
+{
+	vector<vector<pipe>> ways;
+	ks current;
+	vector<pipe> way;
+	vector<ks> queue;
+	GenList();
+	PrintList();
+	for (auto& k : stations) { // Формируем очередь
+		if (k.second.GetId() != begin.GetId() && k.second.GetId() != end.GetId()) {
+			queue.push_back(k.second); 
+		}
+	}
+	current = begin;
+	while (current.GetId() != end.GetId())
+	{
+		for (int i = 1; i < current.GetOut().size(); i++) {
+			for (int j = 1; j < stations.size(); j++) {
+				//if (stations[j].second.)
+			}
+		}
+	}
+	return ways;
+}
+
+void network::GenList()
+{
+	listpipe l;
+	pipe p;
+		for (auto& k : stations) {
+			for (auto& k2 : stations) {
+				if (CanCome(k.second, k2.second)) {
+					l.p = GetPipe(k.second, k2.second);
+					l.out = k.first;
+					l.in = k2.first;
+					list.push_back(l);
+				}
+			}
+		}
+}
+
+void network::PrintList()
+{
+	cout << "\n" << "id трубы" << "\t id kc, входит в" << "\t id kc, выходит из" << endl;
+	for (int i = 1; i < list.size(); i++) {
+		cout << endl << list[i - 1].p.GetId() << "\t\t" << list[i - 1].in << "\t\t" << list[i - 1].out;
+	}
+}
+
+bool network::CanCome(ks k1, ks k2)
+{
+	for (int i = 1; i <= k1.GetOut().size(); i++) {
+		for (int j = 1; j <= k2.GetIn().size(); j++) {
+			if (k1.GetOut()[i - 1] == k2.GetIn()[j - 1] && k1.GetOut()[i - 1] != 0) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void network::ClearDone()
+{
+	for (auto& k : stations) {
+		k.second.SetDone(0);
+	}
+}
+
+pipe network::GetPipe(ks k1, ks k2)
+{
+	pipe p;
+	for (int i = 1; i <= k1.GetOut().size(); i++) {
+		for (int j = 1; j <= k2.GetIn().size(); j++) {
+			if (k1.GetOut()[i - 1] == k2.GetIn()[j - 1] && k1.GetOut()[i - 1] != 0) {
+				p = pipes[k1.GetOut()[i - 1]];
+			}
+		}
+	}
+	return p;
 }
